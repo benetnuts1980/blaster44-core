@@ -41,12 +41,12 @@ class DashboardStatsWidget extends BaseWidget
             //     ->whereDate('created_at', today())
             //     ->sum('amount');
             // $formatted = number_format($revenue, 2, ',', ' ') . ' €';
-            Stat::make('Chiffre d\'affaires du jour', '0,00 €')
-                ->description('Paiements traités aujourd\'hui')
-                ->descriptionIcon('heroicon-m-banknote')
-                ->color('success')
-                ->icon('heroicon-o-banknote'),
 
+Stat::make('Chiffre d\'affaires du jour', '0,00 €')
+    ->description('Paiements traités aujourd\'hui')
+    ->descriptionIcon('heroicon-m-credit-card')
+    ->color('success')
+    ->icon('heroicon-o-credit-card'),
             // TODO: Replace with query when Formula model is available
             // $activeFormulas = Formula::where('active', true)->count();
             Stat::make('Formules actives', '0')

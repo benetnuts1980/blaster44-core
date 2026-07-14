@@ -82,3 +82,15 @@ Before writing code:
 2. Never modify unrelated files.
 3. Generate production-ready code only.
 4. Ask questions if requirements are unclear.
+
+## Filament 4 conventions
+
+This project uses Filament 4.11.
+
+- Layout components (Section, Group, Grid, Fieldset...) are imported from:
+  Filament\Schemas\Components\*
+
+- Form fields (TextInput, Textarea, Toggle, Select, FileUpload...) are imported from:
+  Filament\Forms\Components\*
+
+Do not use Filament\Forms\Components\Section or Group.
