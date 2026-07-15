@@ -38,4 +38,14 @@ public function terrain(): BelongsTo
 {
     return $this->belongsTo(Terrain::class);
 }
+public function getEndTimeAttribute(): ?string
+{
+    if (! $this->start_time || ! $this->formula) {
+        return null;
+    }
+
+    return \Carbon\Carbon::parse($this->start_time)
+        ->addMinutes($this->formula->duration)
+        ->format('H:i');
+}
 }

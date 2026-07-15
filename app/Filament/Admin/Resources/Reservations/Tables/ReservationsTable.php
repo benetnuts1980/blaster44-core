@@ -31,13 +31,23 @@ TextColumn::make('customer_phone')
                     ->label('Terrain')
                     ->searchable()
                     ->sortable(),
+                    TextColumn::make('formula.duration')
+    ->label('Durée')
+    ->suffix(' min')
+    ->sortable(),
 TextColumn::make('reservation_date')
     ->label('Date')
-    ->date('d/m/Y'),
+    ->date('d/m/Y')
+    ->sortable(),
 
 TextColumn::make('start_time')
     ->label('Heure')
     ->time('H:i'),
+    TextColumn::make('end_time')
+    ->label('Fin'),
+    TextColumn::make('formula.duration')
+    ->label('Durée')
+    ->suffix(' min'),
 
 TextColumn::make('players_count')
     ->label('Joueurs'),
