@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Carbon\Carbon;
 
 class Reservation extends Model
 {
@@ -47,5 +48,35 @@ public function getEndTimeAttribute(): ?string
     return \Carbon\Carbon::parse($this->start_time)
         ->addMinutes($this->formula->duration)
         ->format('H:i');
+}
+public static function hasConflict(
+    int $terrainId,
+    string $date,
+    string $startTime,
+    int $durationMinutes,
+    ?int $ignoreReservationId = null,
+): bool {
+    $newStart = Carbon::parse($startTime);
+    $newEnd = (clone $newStart)->addMinutes($durationMinutes);
+
+    $query = self::with('formula')
+        ->where('terrain_id', $terrainId)
+        ->whereDate('reservation_date', $date);
+
+    if ($ignoreReservationId) {
+        $query->where('id', '!=', $ignoreReservationId);
+    }
+
+    foreach ($query->get() as $reservation) {
+        $existingStart = Carbon::parse($reservation->start_time);
+        $existingEnd = (clone $existingStart)
+            ->addMinutes($reservation->formula->duration);
+
+        if ($newStart < $existingEnd && $newEnd > $existingStart) {
+            return true;
+        }
+    }
+
+    return false;
 }
 }
