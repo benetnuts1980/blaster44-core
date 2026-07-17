@@ -12,50 +12,84 @@ class DashboardStatsWidget extends BaseWidget
 {
     protected function getStats(): array
     {
-        $reservationsToday = Reservation::whereDate('reservation_date', today())->count();
+        $reservationsToday = Reservation::whereDate(
+            'reservation_date',
+            today()
+        )->count();
 
-        $playersToday = Reservation::whereDate('reservation_date', today())
-            ->sum('players_count');
+        $playersToday = Reservation::whereDate(
+            'reservation_date',
+            today()
+        )->sum('players_count');
 
-        $revenueTotal = Reservation::sum('total_price');
+        $revenueMonth = Reservation::whereMonth(
+            'reservation_date',
+            now()->month
+        )
+            ->whereYear(
+                'reservation_date',
+                now()->year
+            )
+            ->sum('total_price');
 
-        $activeFormulas = Formula::where('active', true)->count();
+        $pendingReservations = Reservation::where(
+            'status',
+            'pending'
+        )->count();
 
-        $activeTerrains = Terrain::where('is_active', true)->count();
+        $activeTerrains = Terrain::where(
+            'is_active',
+            true
+        )->count();
+
+        $activeFormulas = Formula::where(
+            'active',
+            true
+        )->count();
 
         return [
-            Stat::make('Réservations du jour', $reservationsToday)
-                ->description('Réservations prévues aujourd\'hui')
-                ->descriptionIcon('heroicon-m-calendar')
-                ->color('primary')
-                ->icon('heroicon-o-calendar'),
-
-            Stat::make('Joueurs du jour', $playersToday)
-                ->description('Joueurs attendus aujourd\'hui')
-                ->descriptionIcon('heroicon-m-users')
-                ->color('primary')
-                ->icon('heroicon-o-users'),
 
             Stat::make(
-                'Chiffre d\'affaires total',
-                number_format($revenueTotal, 2, ',', ' ') . ' €'
+                'Réservations du jour',
+                $reservationsToday
             )
-                ->description('Toutes les réservations')
-                ->descriptionIcon('heroicon-m-credit-card')
-                ->color('success')
-                ->icon('heroicon-o-credit-card'),
+                ->description('Parties prévues aujourd’hui')
+                ->color('primary'),
 
-            Stat::make('Formules actives', $activeFormulas)
-                ->description('Paquets de jeu disponibles')
-                ->descriptionIcon('heroicon-m-bolt')
-                ->color('info')
-                ->icon('heroicon-o-bolt'),
+            Stat::make(
+                'Joueurs du jour',
+                $playersToday
+            )
+                ->description('Joueurs attendus')
+                ->color('success'),
 
-            Stat::make('Terrains actifs', $activeTerrains)
-                ->description('Arènes disponibles')
-                ->descriptionIcon('heroicon-m-map')
-                ->color('warning')
-                ->icon('heroicon-o-map'),
+            Stat::make(
+                'CA du mois',
+                number_format($revenueMonth, 2, ',', ' ') . ' €'
+            )
+                ->description('Réservations du mois')
+                ->color('warning'),
+
+            Stat::make(
+                'En attente',
+                $pendingReservations
+            )
+                ->description('Réservations à confirmer')
+                ->color('danger'),
+
+            Stat::make(
+                'Terrains actifs',
+                $activeTerrains
+            )
+                ->description('Terrains disponibles')
+                ->color('info'),
+
+            Stat::make(
+                'Formules actives',
+                $activeFormulas
+            )
+                ->description('Formules disponibles')
+                ->color('gray'),
         ];
     }
 }

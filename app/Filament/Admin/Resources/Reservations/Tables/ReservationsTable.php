@@ -2,10 +2,13 @@
 
 namespace App\Filament\Admin\Resources\Reservations\Tables;
 
+use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Notifications\Notification;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 
 class ReservationsTable
@@ -13,53 +16,58 @@ class ReservationsTable
     public static function configure(Table $table): Table
     {
         return $table
-            ->columns([
-                TextColumn::make('customer_name')
-    ->label('Client')
-    ->searchable()
-    ->sortable(),
+            ->defaultSort('reservation_date', 'asc')
 
-TextColumn::make('customer_phone')
-    ->label('Téléphone'),
-                TextColumn::make('customer_email')
-                    ->searchable(),
+            ->columns([
+
+                TextColumn::make('customer_name')
+                    ->label('Client')
+                    ->searchable()
+                    ->sortable(),
+
+                TextColumn::make('customer_phone')
+                    ->label('Téléphone'),
+
                 TextColumn::make('formula.name')
                     ->label('Formule')
-                    ->searchable()
-                    ->sortable(),
+                    ->sortable()
+                    ->searchable(),
+
                 TextColumn::make('terrain.name')
                     ->label('Terrain')
-                    ->searchable()
                     ->sortable(),
-                    TextColumn::make('formula.duration')
-    ->label('Durée')
-    ->suffix(' min')
-    ->sortable(),
-TextColumn::make('reservation_date')
-    ->label('Date')
-    ->date('d/m/Y')
-    ->sortable(),
 
-TextColumn::make('start_time')
-    ->label('Heure')
-    ->time('H:i'),
-    TextColumn::make('end_time')
-    ->label('Fin'),
-    TextColumn::make('formula.duration')
-    ->label('Durée')
-    ->suffix(' min'),
-
-TextColumn::make('players_count')
-    ->label('Joueurs'),
-
-TextColumn::make('total_price')
-    ->label('Prix')
-    ->money('EUR'),
-                TextColumn::make('deposit')
-                    ->numeric()
+                TextColumn::make('reservation_date')
+                    ->label('Date')
+                    ->date('d/m/Y')
                     ->sortable(),
+
+                TextColumn::make('start_time')
+                    ->label('Début')
+                    ->time('H:i'),
+
+                TextColumn::make('end_time')
+                    ->label('Fin'),
+
+                TextColumn::make('players_count')
+                    ->label('Joueurs')
+                    ->sortable(),
+
+                TextColumn::make('total_price')
+                    ->label('Prix')
+                    ->money('EUR')
+                    ->sortable(),
+
                 TextColumn::make('status')
+                    ->label('Statut')
                     ->badge()
+                    ->color(fn (string $state): string => match ($state) {
+                        'pending' => 'warning',
+                        'confirmed' => 'success',
+                        'completed' => 'info',
+                        'cancelled' => 'danger',
+                        default => 'gray',
+                    })
                     ->formatStateUsing(fn (string $state): string => match ($state) {
                         'pending' => 'En attente',
                         'confirmed' => 'Confirmée',
@@ -67,21 +75,60 @@ TextColumn::make('total_price')
                         'cancelled' => 'Annulée',
                         default => $state,
                     }),
-                TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+
             ])
+
             ->filters([
-                //
+
+                SelectFilter::make('status')
+                    ->label('Statut')
+                    ->options([
+                        'pending' => 'En attente',
+                        'confirmed' => 'Confirmée',
+                        'completed' => 'Terminée',
+                        'cancelled' => 'Annulée',
+                    ]),
+
             ])
+
             ->recordActions([
+
+                Action::make('confirm')
+                    ->label('Confirmer')
+                    ->icon('heroicon-o-check-circle')
+                    ->color('success')
+                    ->visible(fn ($record) => $record->status === 'pending')
+                    ->action(function ($record) {
+                        $record->update([
+                            'status' => 'confirmed',
+                        ]);
+
+                        Notification::make()
+                            ->title('Réservation confirmée')
+                            ->success()
+                            ->send();
+                    }),
+
+                Action::make('complete')
+                    ->label('Terminée')
+                    ->icon('heroicon-o-flag')
+                    ->color('info')
+                    ->visible(fn ($record) => $record->status === 'confirmed')
+                    ->action(function ($record) {
+                        $record->update([
+                            'status' => 'completed',
+                        ]);
+
+                        Notification::make()
+                            ->title('Réservation terminée')
+                            ->success()
+                            ->send();
+                    }),
+
                 EditAction::make(),
+
             ])
+
             ->toolbarActions([
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
