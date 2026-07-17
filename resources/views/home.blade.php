@@ -34,6 +34,8 @@
         <h1 class="text-6xl md:text-8xl font-black uppercase tracking-wider text-white">
             L'adrénaline
             <span class="text-lime-400">commence ici</span>
+            Village • Marché • Jusqu'à 20 joueurs
+Réservez votre mission dès maintenant
         </h1>
 
         <p class="mt-8 text-xl text-gray-300 max-w-3xl mx-auto leading-9">
@@ -84,5 +86,57 @@
 </section>
 
 @include('partials.features')
+<section id="reservation" class="bg-black py-24">
+    <div class="max-w-4xl mx-auto px-6 text-center">
+
+        <h2 class="text-5xl font-black text-white mb-6">
+            Réserver votre partie
+        </h2>
+
+        <p class="text-gray-400 mb-10">
+            Réservation en ligne bientôt disponible.
+        </p>
+
+        <a href="/admin"
+           class="bg-lime-400 text-black font-bold px-8 py-4 rounded-xl">
+            Accéder à l'administration
+        </a>
+
+    </div>
+</section>
+<section id="contact" class="bg-[#0A0A0A] py-24">
+
+    <div class="max-w-4xl mx-auto px-6 text-center">
+
+        <h2 class="text-5xl font-black text-white mb-8">
+            Contact <span class="text-lime-400">Blaster44</span>
+        </h2>
+
+        <div class="space-y-4 text-xl text-gray-300">
+
+            <p>📍 Rue de la Gazéification</p>
+            <p>7350 Thulin (Hensies)</p>
+
+            <p>📱 0473 47 63 73</p>
+
+            <p>🔫 Terrain Village • Terrain Marché</p>
+
+        </div>
+
+        <div class="mt-10">
+
+            <a href="https://wa.me/32473476373"
+               target="_blank"
+               class="bg-lime-400 text-black font-bold px-8 py-4 rounded-2xl">
+
+                Réserver sur WhatsApp
+
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
 
 @endsection

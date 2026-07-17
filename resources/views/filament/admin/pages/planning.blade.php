@@ -4,56 +4,71 @@
         $reservations = \App\Models\Reservation::with(['formula', 'terrain'])
             ->orderBy('reservation_date')
             ->orderBy('start_time')
-            ->get();
+            ->get()
+            ->groupBy(fn ($reservation) => $reservation->reservation_date->format('d/m/Y'));
     @endphp
 
-    <div class="space-y-4">
+    <div class="space-y-8">
 
-        @forelse($reservations as $reservation)
+        @forelse($reservations as $date => $dayReservations)
 
-            <div class="rounded-xl border p-4 bg-white dark:bg-gray-900">
+            <div class="rounded-xl border p-6">
 
-                <div class="font-bold text-lg">
-                    {{ $reservation->reservation_date->format('d/m/Y') }}
-                </div>
+                <h2 class="text-2xl font-bold mb-4">
+                    📅 {{ $date }}
+                </h2>
 
-                <div>
-                    🕒 {{ \Carbon\Carbon::parse($reservation->start_time)->format('H:i') }} → {{ $reservation->end_time }}
-                </div>
+                <div class="space-y-3">
 
-                <div>
-                    👤 {{ $reservation->customer_name }}
-                </div>
+                    @foreach($dayReservations as $reservation)
 
-                <div>
-                    🎯 {{ $reservation->formula?->name }}
-                </div>
+                        <div class="rounded-lg border p-4">
 
-                <div>
-                    📍 {{ $reservation->terrain?->name }}
-                    <div>
-    @switch($reservation->status)
-        @case('pending')
-            🟡 En attente
-            @break
+                            <div class="font-semibold">
+                                🕒 {{ \Carbon\Carbon::parse($reservation->start_time)->format('H:i') }}
+                                → {{ $reservation->end_time }}
+                            </div>
 
-        @case('confirmed')
-            🟢 Confirmée
-            @break
+                            <div>
+                                👤 {{ $reservation->customer_name }}
+                            </div>
 
-        @case('completed')
-            🔵 Terminée
-            @break
+                            <div>
+                                🎯 {{ $reservation->formula?->name }}
+                            </div>
 
-        @case('cancelled')
-            🔴 Annulée
-            @break
-    @endswitch
-</div>
-                </div>
+                            <div>
+                                🏟️ {{ $reservation->terrain?->name }}
+                            </div>
 
-                <div>
-                    👥 {{ $reservation->players_count }} joueurs
+                            <div>
+                                👥 {{ $reservation->players_count }} joueurs
+                            </div>
+
+                            <div>
+                                @switch($reservation->status)
+                                    @case('pending')
+                                        🟡 En attente
+                                        @break
+
+                                    @case('confirmed')
+                                        🟢 Confirmée
+                                        @break
+
+                                    @case('completed')
+                                        🔵 Terminée
+                                        @break
+
+                                    @case('cancelled')
+                                        🔴 Annulée
+                                        @break
+                                @endswitch
+                            </div>
+
+                        </div>
+
+                    @endforeach
+
                 </div>
 
             </div>
