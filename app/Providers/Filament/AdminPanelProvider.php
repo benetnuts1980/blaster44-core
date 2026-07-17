@@ -27,6 +27,7 @@ class AdminPanelProvider extends PanelProvider
         return $panel
             ->id('admin')
             ->path('admin')
+            ->login()
             ->brandName('BLASTER44')
             ->colors([
                 'primary' => Color::Lime,

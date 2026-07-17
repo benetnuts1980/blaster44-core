@@ -12,57 +12,75 @@
 
         @forelse($reservations as $date => $dayReservations)
 
-            <div class="rounded-xl border p-6">
+            <div style="border:1px solid #ddd;padding:20px;border-radius:12px;">
 
-                <h2 class="text-2xl font-bold mb-4">
+                <h2 style="font-size:28px;font-weight:bold;margin-bottom:20px;">
                     📅 {{ $date }}
                 </h2>
 
-                <div class="space-y-3">
+                <div style="display:flex;flex-direction:column;gap:15px;">
 
                     @foreach($dayReservations as $reservation)
 
-                        <div class="rounded-lg border p-4">
+                        <div style="border:1px solid #ddd;padding:15px;border-radius:10px;background:#fafafa;">
 
-                            <div class="font-semibold">
-                                🕒 {{ \Carbon\Carbon::parse($reservation->start_time)->format('H:i') }}
-                                → {{ $reservation->end_time }}
-                            </div>
+                            <div style="display:flex;justify-content:space-between;align-items:flex-start;">
 
-                            <div>
-                                👤 {{ $reservation->customer_name }}
-                            </div>
+                                <div>
 
-                            <div>
-                                🎯 {{ $reservation->formula?->name }}
-                            </div>
+                                    <div style="font-size:18px;font-weight:bold;">
+                                        🕒 {{ \Carbon\Carbon::parse($reservation->start_time)->format('H:i') }}
+                                        → {{ $reservation->end_time }}
+                                    </div>
 
-                            <div>
-                                🏟️ {{ $reservation->terrain?->name }}
-                            </div>
+                                    <div style="margin-top:8px;">
+                                        👤 <strong>{{ $reservation->customer_name }}</strong>
+                                    </div>
 
-                            <div>
-                                👥 {{ $reservation->players_count }} joueurs
-                            </div>
+                                    <div>
+                                        🎯 {{ $reservation->formula?->name }}
+                                    </div>
 
-                            <div>
-                                @switch($reservation->status)
-                                    @case('pending')
-                                        🟡 En attente
-                                        @break
+                                    <div>
+                                        🏟️ {{ $reservation->terrain?->name }}
+                                    </div>
 
-                                    @case('confirmed')
-                                        🟢 Confirmée
-                                        @break
+                                    <div>
+                                        👥 {{ $reservation->players_count }} joueurs
+                                    </div>
 
-                                    @case('completed')
-                                        🔵 Terminée
-                                        @break
+                                </div>
 
-                                    @case('cancelled')
-                                        🔴 Annulée
-                                        @break
-                                @endswitch
+                                <div>
+
+                                    @if($reservation->status === 'pending')
+
+                                        <span style="background:#facc15;color:#000;padding:6px 12px;border-radius:999px;font-weight:bold;">
+                                            En attente
+                                        </span>
+
+                                    @elseif($reservation->status === 'confirmed')
+
+                                        <span style="background:#22c55e;color:white;padding:6px 12px;border-radius:999px;font-weight:bold;">
+                                            Confirmée
+                                        </span>
+
+                                    @elseif($reservation->status === 'completed')
+
+                                        <span style="background:#3b82f6;color:white;padding:6px 12px;border-radius:999px;font-weight:bold;">
+                                            Terminée
+                                        </span>
+
+                                    @elseif($reservation->status === 'cancelled')
+
+                                        <span style="background:#ef4444;color:white;padding:6px 12px;border-radius:999px;font-weight:bold;">
+                                            Annulée
+                                        </span>
+
+                                    @endif
+
+                                </div>
+
                             </div>
 
                         </div>
@@ -75,7 +93,7 @@
 
         @empty
 
-            <div class="rounded-xl border p-4">
+            <div style="padding:20px;border:1px solid #ddd;border-radius:12px;">
                 Aucune réservation trouvée.
             </div>
 
