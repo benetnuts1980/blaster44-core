@@ -78,6 +78,9 @@
                         <option
     value="{{ $formula->id }}"
     data-price="{{ $formula->price }}"
+    data-duration="{{ $formula->duration }}"
+    data-min="{{ $formula->min_players }}"
+    data-max="{{ $formula->max_players }}"
 >
                             {{ $formula->name }}
                             - {{ $formula->duration }} min
@@ -85,6 +88,18 @@
                         </option>
                     @endforeach
                 </select>
+                <div
+    id="formula-info"
+    class="mt-4 p-4 bg-lime-50 border border-lime-200 rounded-lg hidden"
+>
+    <div class="font-bold text-lg text-lime-700">
+        Informations de la formule
+    </div>
+
+    <div id="formula-price" class="mt-2"></div>
+    <div id="formula-duration"></div>
+    <div id="formula-players"></div>
+</div>
             </div>
             <div>
     <label class="block mb-2 font-semibold">
