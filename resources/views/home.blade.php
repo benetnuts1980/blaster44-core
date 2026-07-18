@@ -6,7 +6,8 @@
 
 <x-navbar />
 
-<section id="home" class="relative flex min-h-screen items-center justify-center overflow-hidden">
+<section id="home"
+class="relative flex min-h-[85vh] items-center justify-center overflow-hidden">
 
     <!-- Image de fond -->
     <img
@@ -23,38 +24,44 @@
     <div class="relative z-10 text-center max-w-5xl px-6">
 
         <img
-            src="{{ asset('images/logo.png') }}"
-            class="mx-auto w-64 md:w-80 mb-8 drop-shadow-[0_0_40px_rgba(166,255,0,0.35)]"
-            alt="Blaster44">
+    src="{{ asset('images/logo.png') }}"
+    class="mx-auto w-40 md:w-52 mb-6"
+    alt="Blaster44">
 
         <span class="inline-block px-5 py-2 rounded-full border border-lime-400/30 bg-lime-400/10 text-lime-400 font-semibold mb-8">
             🔥 Belgique • Gel Blaster • Depuis 2026
         </span>
 
         <h1 class="text-6xl md:text-8xl font-black uppercase tracking-wider text-white">
-            L'adrénaline
-            <span class="text-lime-400">commence ici</span>
-            Village • Marché • Jusqu'à 20 joueurs
-Réservez votre mission dès maintenant
-        </h1>
+    L'adrénaline
+    <span class="text-lime-400">commence ici</span>
+</h1>
+
+<p class="mt-6 text-2xl text-gray-300">
+    Terrain immersif • Jusqu'à 12 joueurs
+</p>
+
+<p class="mt-2 text-lime-400 font-semibold">
+    Réservez votre mission dès maintenant
+</p>
 
         <p class="mt-8 text-xl text-gray-300 max-w-3xl mx-auto leading-9">
 
-            Deux terrains immersifs • Jusqu'à 20 joueurs • Anniversaires • Entreprises • Déplacement à domicile
+            Terrain immersif • Anniversaires • Entreprises • Déplacement à domicile
 
         </p>
 
         <div class="grid grid-cols-3 gap-6 mt-12 max-w-3xl mx-auto text-white">
 
             <div>
-                <div class="text-4xl font-black text-lime-400">20+</div>
+                <div class="text-4xl font-black text-lime-400">12</div>
                 <div>Joueurs</div>
             </div>
 
             <div>
-                <div class="text-4xl font-black text-lime-400">2</div>
-                <div>Terrains</div>
-            </div>
+    <div class="text-4xl font-black text-lime-400">1</div>
+    <div>Terrain immersif</div>
+</div>
 
             <div>
                 <div class="text-4xl font-black text-lime-400">100%</div>
@@ -65,7 +72,7 @@ Réservez votre mission dès maintenant
 
         <div class="flex justify-center gap-6 mt-14 flex-wrap">
 
-            <a href="#reservation"
+            <a href="/reserver"
                class="bg-lime-400 text-black font-bold px-10 py-5 rounded-2xl hover:scale-105 duration-300 shadow-2xl shadow-lime-400/30">
 
                 🔫 Réserver
@@ -86,24 +93,7 @@ Réservez votre mission dès maintenant
 </section>
 
 @include('partials.features')
-<section id="reservation" class="bg-black py-24">
-    <div class="max-w-4xl mx-auto px-6 text-center">
 
-        <h2 class="text-5xl font-black text-white mb-6">
-            Réserver votre partie
-        </h2>
-
-        <p class="text-gray-400 mb-10">
-            Réservation en ligne bientôt disponible.
-        </p>
-
-        <a href="/admin"
-           class="bg-lime-400 text-black font-bold px-8 py-4 rounded-xl">
-            Accéder à l'administration
-        </a>
-
-    </div>
-</section>
 <section id="contact" class="bg-[#0A0A0A] py-24">
 
     <div class="max-w-4xl mx-auto px-6 text-center">
@@ -119,7 +109,9 @@ Réservez votre mission dès maintenant
 
             <p>📱 0473 47 63 73</p>
 
-            <p>🔫 Terrain Village • Terrain Marché</p>
+            <p>🔫 Jusqu'à 12 joueurs</p>
+<p>🏘️ Terrain immersif</p>
+<p>🚗 Déplacement à domicile possible</p>
 
         </div>
 

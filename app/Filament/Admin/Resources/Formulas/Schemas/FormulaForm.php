@@ -91,11 +91,11 @@ class FormulaForm
                             ->inline(false),
 
                         FileUpload::make('image')
-                            ->label('Image')
-                            ->image()
-                            ->imageEditor()
-                            ->directory('formulas')
-                            ->visibility('public'),
+    ->label('Image')
+    ->image()
+    ->imageEditor()
+    ->disk('public')
+    ->directory('formulas')
                     ])
                     ->columns(2),
             ]);

@@ -25,9 +25,9 @@ class ReservationController extends Controller
             'customer_email' => ['nullable', 'email'],
             'formula_id' => ['required', 'exists:formulas,id'],
             'terrain_id' => ['required', 'exists:terrains,id'],
-            'reservation_date' => ['required', 'date'],
+            'reservation_date' => ['required', 'date', 'after_or_equal:today'],
             'start_time' => ['required'],
-            'players_count' => ['required', 'integer', 'min:1'],
+            'players_count' => ['required', 'integer', 'min:1', 'max:12'],
         ]);
 
         $formula = Formula::findOrFail($data['formula_id']);

@@ -22,13 +22,28 @@ class EditReservation extends EditRecord
             $phone = '32' . substr($phone, 1);
         }
 
+        $message = rawurlencode(
+            "Bonjour {$this->record->customer_name},\n\n" .
+            "Votre réservation Blaster44 est bien enregistrée.\n\n" .
+            "📅 Date : " . $this->record->reservation_date->format('d/m/Y') . "\n" .
+            "🕒 Heure : " . substr($this->record->start_time, 0, 5) . "\n" .
+            "🏟️ Terrain : " . ($this->record->terrain?->name ?? '-') . "\n" .
+            "🎯 Formule : " . ($this->record->formula?->name ?? '-') . "\n" .
+            "👥 Joueurs : " . $this->record->players_count . "\n\n" .
+            "📍 Adresse :\n" .
+            "Rue de la Gazéification\n" .
+            "7350 Thulin\n\n" .
+            "À bientôt 🔫\n" .
+            "L'équipe Blaster44"
+        );
+
         return [
 
             Action::make('whatsapp')
                 ->label('WhatsApp')
                 ->icon('heroicon-o-chat-bubble-left-right')
                 ->color('success')
-                ->url("https://wa.me/{$phone}", true),
+                ->url("https://wa.me/{$phone}?text={$message}", true),
 
             DeleteAction::make(),
 

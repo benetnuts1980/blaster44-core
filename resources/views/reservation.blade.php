@@ -75,7 +75,10 @@
                     <option value="">Choisir une formule</option>
 
                     @foreach($formulas as $formula)
-                        <option value="{{ $formula->id }}">
+                        <option
+    value="{{ $formula->id }}"
+    data-price="{{ $formula->price }}"
+>
                             {{ $formula->name }}
                             - {{ $formula->duration }} min
                             - {{ number_format($formula->price, 2, ',', ' ') }} €
@@ -83,6 +86,18 @@
                     @endforeach
                 </select>
             </div>
+            <div>
+    <label class="block mb-2 font-semibold">
+        Prix estimé
+    </label>
+
+    <div
+        id="price-display"
+        class="text-3xl font-black text-lime-500"
+    >
+        —
+    </div>
+</div>
 
             <div>
                 <label class="block mb-2 font-semibold">Terrain</label>
@@ -106,8 +121,9 @@
                 <label class="block mb-2 font-semibold">Date</label>
 
                 <input
-                    type="date"
-                    name="reservation_date"
+    type="date"
+    name="reservation_date"
+    min="{{ now()->format('Y-m-d') }}"
                     value="{{ old('reservation_date') }}"
                     class="w-full border rounded-lg px-4 py-2"
                     required
@@ -117,13 +133,25 @@
             <div>
                 <label class="block mb-2 font-semibold">Heure</label>
 
-                <input
-                    type="time"
-                    name="start_time"
-                    value="{{ old('start_time') }}"
-                    class="w-full border rounded-lg px-4 py-2"
-                    required
-                >
+                <select
+    name="start_time"
+    class="w-full border rounded-lg px-4 py-2"
+    required
+>
+    <option value="">Choisir une heure</option>
+
+    <option value="09:00">09:00</option>
+    <option value="10:00">10:00</option>
+    <option value="11:00">11:00</option>
+    <option value="12:00">12:00</option>
+    <option value="13:00">13:00</option>
+    <option value="14:00">14:00</option>
+    <option value="15:00">15:00</option>
+    <option value="16:00">16:00</option>
+    <option value="17:00">17:00</option>
+    <option value="18:00">18:00</option>
+</select>
+
             </div>
 
             <div>
@@ -132,13 +160,17 @@
                 </label>
 
                 <input
-                    type="number"
-                    name="players_count"
-                    value="{{ old('players_count') }}"
-                    class="w-full border rounded-lg px-4 py-2"
-                    min="1"
-                    required
-                >
+    type="number"
+    name="players_count"
+    value="{{ old('players_count') }}"
+    class="w-full border rounded-lg px-4 py-2"
+    min="1"
+    max="12"
+    required
+>
+<p class="text-sm text-gray-500 mt-1">
+    Maximum 12 joueurs actuellement.
+</p>
             </div>
 
             <button
@@ -153,6 +185,27 @@
     </div>
 
 </div>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+    const formula = document.querySelector('[name="formula_id"]');
+    const priceDisplay = document.getElementById('price-display');
+
+    formula.addEventListener('change', () => {
+
+        const option = formula.options[formula.selectedIndex];
+
+        const price = option.dataset.price;
+
+        if (price) {
+            priceDisplay.innerHTML = price + ' €';
+        } else {
+            priceDisplay.innerHTML = '—';
+        }
+    });
+
+});
+</script>
 
 </body>
 </html>
