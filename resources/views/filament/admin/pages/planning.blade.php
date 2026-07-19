@@ -17,6 +17,22 @@
                 <h2 style="font-size:28px;font-weight:bold;margin-bottom:20px;">
                     📅 {{ $date }}
                 </h2>
+                @php
+    $dayPlayers = $dayReservations->sum('players_count');
+    $dayRevenue = $dayReservations->sum('total_price');
+    $dayCount = $dayReservations->count();
+@endphp
+
+<div style="
+    display:flex;
+    gap:20px;
+    margin-bottom:20px;
+    font-weight:bold;
+">
+    <span>🎯 {{ $dayCount }} réservation(s)</span>
+    <span>👥 {{ $dayPlayers }} joueur(s)</span>
+    <span>💰 {{ number_format($dayRevenue, 2, ',', ' ') }} €</span>
+</div>
 
                 <div style="display:flex;flex-direction:column;gap:15px;">
 
