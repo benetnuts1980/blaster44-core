@@ -10,6 +10,8 @@ use Filament\Notifications\Notification;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
+use App\Mail\ReservationConfirmedMail;
+use Illuminate\Support\Facades\Mail;
 
 class ReservationsTable
 {
@@ -94,20 +96,29 @@ class ReservationsTable
             ->recordActions([
 
                 Action::make('confirm')
-                    ->label('Confirmer')
-                    ->icon('heroicon-o-check-circle')
-                    ->color('success')
-                    ->visible(fn ($record) => $record->status === 'pending')
-                    ->action(function ($record) {
-                        $record->update([
-                            'status' => 'confirmed',
-                        ]);
+    ->label('Confirmer')
+    ->icon('heroicon-o-check-circle')
+    ->color('success')
+    ->visible(fn ($record) => $record->status === 'pending')
+    ->action(function ($record) {
 
-                        Notification::make()
-                            ->title('Réservation confirmée')
-                            ->success()
-                            ->send();
-                    }),
+        $record->update([
+            'status' => 'confirmed',
+        ]);
+
+        $record->load(['formula', 'terrain']);
+
+        if ($record->customer_email) {
+            Mail::to($record->customer_email)
+                ->send(new ReservationConfirmedMail($record));
+        }
+
+        Notification::make()
+            ->title('Réservation confirmée')
+            ->body('Email de confirmation envoyé.')
+            ->success()
+            ->send();
+    }),
 
                 Action::make('complete')
                     ->label('Terminée')

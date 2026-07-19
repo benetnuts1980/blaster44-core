@@ -118,7 +118,8 @@
                 <label class="block mb-2 font-semibold">Terrain</label>
 
                 <select
-                    name="terrain_id"
+    id="terrain"
+    name="terrain_id"
                     class="w-full border rounded-lg px-4 py-2"
                     required
                 >
@@ -137,6 +138,7 @@
 
                 <input
     type="date"
+    id="reservation_date"
     name="reservation_date"
     min="{{ now()->format('Y-m-d') }}"
                     value="{{ old('reservation_date') }}"
@@ -149,6 +151,7 @@
                 <label class="block mb-2 font-semibold">Heure</label>
 
                 <select
+    id="start_time"
     name="start_time"
     class="w-full border rounded-lg px-4 py-2"
     required
@@ -209,7 +212,6 @@ document.addEventListener('DOMContentLoaded', () => {
     formula.addEventListener('change', () => {
 
         const option = formula.options[formula.selectedIndex];
-
         const price = option.dataset.price;
 
         if (price) {
@@ -218,6 +220,40 @@ document.addEventListener('DOMContentLoaded', () => {
             priceDisplay.innerHTML = '—';
         }
     });
+
+    const terrain = document.getElementById('terrain');
+    const date = document.getElementById('reservation_date');
+    const startTime = document.getElementById('start_time');
+
+    async function loadAvailableSlots() {
+
+        if (!terrain.value || !date.value) {
+            return;
+        }
+
+        const response = await fetch(
+            `/creneaux-disponibles?terrain_id=${terrain.value}&date=${date.value}`
+        );
+
+        const data = await response.json();
+
+        startTime.innerHTML =
+            '<option value="">Choisir une heure</option>';
+
+        data.available.forEach(hour => {
+
+            const option = document.createElement('option');
+
+            option.value = hour;
+            option.textContent = hour;
+
+            startTime.appendChild(option);
+
+        });
+    }
+
+    terrain.addEventListener('change', loadAvailableSlots);
+    date.addEventListener('change', loadAvailableSlots);
 
 });
 </script>

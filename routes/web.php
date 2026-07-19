@@ -1,8 +1,8 @@
 <?php
 
-use App\Http\Controllers\ReservationController;
 use Illuminate\Support\Facades\Route;
 use App\Models\Formula;
+use App\Http\Controllers\ReservationController;
 
 Route::get('/', function () {
     return view('home', [
@@ -12,3 +12,4 @@ Route::get('/', function () {
 
 Route::get('/reserver', [ReservationController::class, 'create']);
 Route::post('/reserver', [ReservationController::class, 'store']);
+Route::get('/creneaux-disponibles', [ReservationController::class, 'availableSlots']);

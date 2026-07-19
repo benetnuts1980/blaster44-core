@@ -6,6 +6,9 @@ use App\Models\Formula;
 use App\Models\Reservation;
 use App\Models\Terrain;
 use Illuminate\Http\Request;
+use App\Mail\ReservationAdminMail;
+use App\Mail\ReservationClientMail;
+use Illuminate\Support\Facades\Mail;
 
 class ReservationController extends Controller
 {
@@ -43,13 +46,51 @@ class ReservationController extends Controller
                 ->with('error', 'Le terrain est déjà réservé sur ce créneau.');
         }
 
-        Reservation::create([
-            ...$data,
-            'total_price' => $formula->price,
-            'deposit' => 0,
-            'status' => 'pending',
-        ]);
+       $reservation = Reservation::create([
+    ...$data,
+    'total_price' => $formula->price,
+    'deposit' => 0,
+    'status' => 'pending',
+]);
+
+$reservation->load(['formula', 'terrain']);
+if ($reservation->customer_email) {
+    Mail::to($reservation->customer_email)
+        ->send(new ReservationClientMail($reservation));
+}
+
+Mail::to('sergentblaster44@gmail.com')
+    ->send(new ReservationAdminMail($reservation));
 
         return back()->with('success', 'Réservation enregistrée avec succès.');
     }
+    public function availableSlots(Request $request)
+{
+    $terrainId = $request->terrain_id;
+    $date = $request->date;
+
+    $hours = [
+        '09:00',
+        '10:00',
+        '11:00',
+        '12:00',
+        '13:00',
+        '14:00',
+        '15:00',
+        '16:00',
+        '17:00',
+        '18:00',
+    ];
+
+    $reservations = Reservation::where('terrain_id', $terrainId)
+        ->whereDate('reservation_date', $date)
+        ->pluck('start_time')
+        ->map(fn ($time) => substr($time, 0, 5))
+        ->toArray();
+
+    return response()->json([
+        'reserved' => $reservations,
+        'available' => array_values(array_diff($hours, $reservations)),
+    ]);
+}
 }
