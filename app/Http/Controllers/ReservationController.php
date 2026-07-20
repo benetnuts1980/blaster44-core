@@ -62,7 +62,10 @@ if ($reservation->customer_email) {
 Mail::to('sergentblaster44@gmail.com')
     ->send(new ReservationAdminMail($reservation));
 
-        return back()->with('success', 'Réservation enregistrée avec succès.');
+        return redirect()->route(
+    'reservation.success',
+    $reservation
+);
     }
     public function availableSlots(Request $request)
 {
@@ -91,6 +94,14 @@ Mail::to('sergentblaster44@gmail.com')
     return response()->json([
         'reserved' => $reservations,
         'available' => array_values(array_diff($hours, $reservations)),
+    ]);
+}
+public function success(Reservation $reservation)
+{
+    $reservation->load(['formula', 'terrain']);
+
+    return view('reservation-success', [
+        'reservation' => $reservation,
     ]);
 }
 }

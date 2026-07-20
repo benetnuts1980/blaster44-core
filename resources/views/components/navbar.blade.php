@@ -19,7 +19,7 @@
 
         </div>
 
-        <a href="#reservation"
+        <a href="/reserver"
            class="rounded-xl bg-lime-400 px-6 py-3 font-bold text-black transition hover:scale-105">
 
             Réserver

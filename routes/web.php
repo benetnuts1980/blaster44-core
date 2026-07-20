@@ -13,3 +13,5 @@ Route::get('/', function () {
 Route::get('/reserver', [ReservationController::class, 'create']);
 Route::post('/reserver', [ReservationController::class, 'store']);
 Route::get('/creneaux-disponibles', [ReservationController::class, 'availableSlots']);
+Route::get('/reservation/success/{reservation}', [ReservationController::class, 'success'])
+    ->name('reservation.success');

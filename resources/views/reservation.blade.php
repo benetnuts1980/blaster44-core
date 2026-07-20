@@ -8,32 +8,26 @@
     @vite(['resources/css/app.css'])
 </head>
 <body class="bg-[#0A0A0A] text-white">
+    <div class="relative max-w-3xl mx-auto py-12 px-6">
 
 <div class="fixed inset-0 overflow-hidden pointer-events-none">
     <div class="absolute w-[700px] h-[700px] bg-lime-400/10 blur-[200px] rounded-full left-1/2 top-20 -translate-x-1/2"></div>
 </div>
 
-<div class="relative max-w-5xl mx-auto py-16 px-6">
+<div class="mb-10 mt-32">
 
-    <div class="flex items-center gap-4 mb-10">
+    <h1 class="text-4xl md:text-5xl font-black uppercase">
+        Réserver votre
+        <span class="text-lime-400">
+            mission
+        </span>
+    </h1>
 
-    <img
-        src="{{ asset('images/logo.png') }}"
-        alt="Blaster44"
-        class="w-24">
+    <p class="text-gray-400 mt-3">
+        Choisissez votre formule, votre date et votre créneau.
+    </p>
 
-    <div>
-
-        <h1 class="text-4xl font-black uppercase">
-            Réserver votre
-            <span class="text-lime-400">mission</span>
-        </h1>
-
-        <p class="text-gray-400">
-            Choisissez votre formule et votre créneau.
-        </p>
-
-    </div>
+</div>
 
 </div>
 
@@ -124,17 +118,19 @@ style="color:white;"
     <div id="formula-players"></div>
 </div>
             </div>
-            <div>
-    <label class="block mb-2 font-semibold">
+           <div class="bg-lime-400/10 border border-lime-400/20 rounded-2xl p-4">
+
+    <div class="text-gray-400 text-sm">
         Prix estimé
-    </label>
+    </div>
 
     <div
-    id="price-display"
-    class="text-5xl font-black text-lime-400"
->
+        id="price-display"
+        class="text-4xl font-black text-lime-400 mt-1"
+    >
         —
     </div>
+
 </div>
 
             <div>
@@ -241,6 +237,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
     </div>
 
+</div>
 </div>
 <script>
 document.addEventListener('DOMContentLoaded', () => {
