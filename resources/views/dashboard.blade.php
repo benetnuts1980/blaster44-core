@@ -52,15 +52,69 @@
 
             <div class="mt-10 bg-black rounded-2xl p-6 border border-gray-800">
 
-                <h2 class="text-2xl font-bold mb-4">
-                    📅 Mes réservations
-                </h2>
+    <h2 class="text-2xl font-bold mb-4">
+        📅 Mes réservations
+    </h2>
 
-                <p class="text-gray-400">
-                    Aucune réservation associée à votre compte pour le moment.
-                </p>
+    @php
+        $reservations = auth()->user()
+            ->reservations()
+            ->with(['terrain', 'formula'])
+            ->latest()
+            ->get();
+    @endphp
 
-            </div>
+    @if($reservations->isEmpty())
+
+        <p class="text-gray-400">
+            Aucune réservation associée à votre compte pour le moment.
+        </p>
+
+    @else
+
+        <div class="space-y-4">
+
+            @foreach($reservations as $reservation)
+
+                <div class="bg-[#111111] border border-lime-400/20 rounded-xl p-4">
+
+                    <div class="flex justify-between items-start">
+
+                        <div>
+
+                            <div class="font-bold text-lg text-lime-400">
+                                {{ $reservation->terrain->name }}
+                            </div>
+
+                            <div class="text-gray-400">
+                                {{ $reservation->reservation_date->format('d/m/Y') }}
+                                à
+                                {{ substr($reservation->start_time, 0, 5) }}
+                            </div>
+
+                            <div class="text-sm text-gray-500 mt-1">
+                                {{ $reservation->players_count }} joueur(s)
+                                •
+                                {{ number_format($reservation->total_price, 2, ',', ' ') }} €
+                            </div>
+
+                        </div>
+
+                        <div class="text-sm px-3 py-1 rounded-full bg-lime-400/10 text-lime-400">
+                            {{ ucfirst($reservation->status) }}
+                        </div>
+
+                    </div>
+
+                </div>
+
+            @endforeach
+
+        </div>
+
+    @endif
+
+</div>
 
             <div class="mt-10 flex flex-wrap gap-4">
 

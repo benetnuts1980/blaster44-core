@@ -10,19 +10,20 @@ use App\Models\User;
 class Reservation extends Model
 {
     protected $fillable = [
-        'customer_name',
-        'customer_phone',
-        'customer_email',
-        'formula_id',
-        'terrain_id',
-        'reservation_date',
-        'start_time',
-        'players_count',
-        'total_price',
-        'deposit',
-        'status',
-        'notes',
-    ];
+    'user_id',
+    'customer_name',
+    'customer_phone',
+    'customer_email',
+    'formula_id',
+    'terrain_id',
+    'reservation_date',
+    'start_time',
+    'players_count',
+    'total_price',
+    'deposit',
+    'status',
+    'notes',
+];
 
     protected $casts = [
         'reservation_date' => 'date',
