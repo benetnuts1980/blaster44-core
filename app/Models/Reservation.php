@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Carbon\Carbon;
+use App\Models\User;
 
 class Reservation extends Model
 {
@@ -39,6 +40,10 @@ public function terrain(): BelongsTo
 {
     return $this->belongsTo(Terrain::class);
 }
+public function user(): BelongsTo
+{
+    return $this->belongsTo(User::class);
+}
 public function getEndTimeAttribute(): ?string
 {
     if (! $this->start_time || ! $this->formula) {
@@ -68,15 +73,17 @@ public static function hasConflict(
     }
 
     foreach ($query->get() as $reservation) {
-        $existingStart = Carbon::parse($reservation->start_time);
-        $existingEnd = (clone $existingStart)
-            ->addMinutes($reservation->formula->duration);
 
-        if ($newStart < $existingEnd && $newEnd > $existingStart) {
-            return true;
-        }
+    $existingStart = Carbon::parse($reservation->start_time);
+
+    $existingEnd = (clone $existingStart)
+        ->addMinutes($reservation->formula->duration);
+
+    if ($newStart < $existingEnd && $newEnd > $existingStart) {
+        return true;
     }
+}
 
-    return false;
+return false;
 }
 }

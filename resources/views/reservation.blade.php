@@ -45,41 +45,101 @@
 
     <div class="bg-[#111111] text-white rounded-3xl border border-lime-400/20 p-8 shadow-2xl shadow-lime-500/10">
 
+@auth
+<div class="mb-6 p-4 bg-lime-400/10 border border-lime-400/20 rounded-xl">
+
+    <div class="font-bold text-lime-400">
+        🔫 Connecté en tant que
+    </div>
+
+    <div class="mt-1">
+        {{ auth()->user()->pseudo ?? auth()->user()->name }}
+    </div>
+
+    <div class="text-sm text-gray-400">
+        {{ auth()->user()->email }}
+    </div>
+
+</div>
+@endauth
+
         <form method="POST" action="/reserver" class="space-y-6">
             @csrf
 
-            <div>
-                <label class="block mb-2 font-semibold">Nom</label>
-                <input
-                    type="text"
-                    name="customer_name"
-                    value="{{ old('customer_name') }}"
-                    class="w-full bg-black border border-gray-700 rounded-xl px-4 py-3 text-white"
-                    required
-                >
-            </div>
+            @auth
 
-            <div>
-                <label class="block mb-2 font-semibold">Téléphone</label>
-                <input
-                    type="text"
-                    name="customer_phone"
-                    value="{{ old('customer_phone') }}"
-                    class="w-full bg-black border border-gray-700 rounded-xl px-4 py-3 text-white"
-                    required
-                >
-            </div>
+<div class="bg-lime-400/10 border border-lime-400/20 rounded-2xl p-5">
 
-            <div>
-                <label class="block mb-2 font-semibold">Email</label>
-                <input
-                    type="email"
-                    name="customer_email"
-                    value="{{ old('customer_email') }}"
-                    class="w-full bg-black border border-gray-700 rounded-xl px-4 py-3 text-white"
-                >
-            </div>
+    <div class="text-lime-400 font-bold text-lg mb-3">
+        🔫 Joueur connecté
+    </div>
 
+    <div class="space-y-2">
+
+        <div>
+            <span class="text-gray-400">Pseudo :</span>
+            {{ auth()->user()->pseudo ?? auth()->user()->name }}
+        </div>
+
+        <div>
+            <span class="text-gray-400">Nom :</span>
+            {{ auth()->user()->name }}
+        </div>
+
+        <div>
+            <span class="text-gray-400">Email :</span>
+            {{ auth()->user()->email }}
+        </div>
+
+        <div>
+            <span class="text-gray-400">Téléphone :</span>
+            {{ auth()->user()->phone ?? 'Non renseigné' }}
+        </div>
+
+    </div>
+
+</div>
+
+@endauth
+
+@guest
+
+<div>
+    <label class="block mb-2 font-semibold">Nom</label>
+
+    <input
+        type="text"
+        name="customer_name"
+        value="{{ old('customer_name') }}"
+        class="w-full bg-black border border-gray-700 rounded-xl px-4 py-3 text-white"
+        required
+    >
+</div>
+
+<div>
+    <label class="block mb-2 font-semibold">Téléphone</label>
+
+    <input
+        type="text"
+        name="customer_phone"
+        value="{{ old('customer_phone') }}"
+        class="w-full bg-black border border-gray-700 rounded-xl px-4 py-3 text-white"
+        required
+    >
+</div>
+
+<div>
+    <label class="block mb-2 font-semibold">Email</label>
+
+    <input
+        type="email"
+        name="customer_email"
+        value="{{ old('customer_email') }}"
+        class="w-full bg-black border border-gray-700 rounded-xl px-4 py-3 text-white"
+    >
+</div>
+
+@endguest
             <div>
                 <label class="block mb-2 font-semibold">Formule</label>
 

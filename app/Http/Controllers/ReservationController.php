@@ -23,15 +23,33 @@ class ReservationController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'customer_name' => ['required'],
-            'customer_phone' => ['required'],
-            'customer_email' => ['nullable', 'email'],
-            'formula_id' => ['required', 'exists:formulas,id'],
-            'terrain_id' => ['required', 'exists:terrains,id'],
-            'reservation_date' => ['required', 'date', 'after_or_equal:today'],
-            'start_time' => ['required'],
-            'players_count' => ['required', 'integer', 'min:1', 'max:12'],
-        ]);
+    'customer_name' => ['nullable'],
+    'customer_phone' => ['nullable'],
+    'customer_email' => ['nullable', 'email'],
+    'formula_id' => ['required', 'exists:formulas,id'],
+    'terrain_id' => ['required', 'exists:terrains,id'],
+    'reservation_date' => ['required', 'date', 'after_or_equal:today'],
+    'start_time' => ['required'],
+    'players_count' => ['required', 'integer', 'min:1', 'max:12'],
+]);
+
+if (auth()->check()) {
+
+    $data['customer_name'] = auth()->user()->name;
+    $data['customer_phone'] = auth()->user()->phone;
+    $data['customer_email'] = auth()->user()->email;
+
+} else {
+
+    if (
+        empty($data['customer_name']) ||
+        empty($data['customer_phone'])
+    ) {
+        return back()
+            ->withInput()
+            ->with('error', 'Nom et téléphone obligatoires.');
+    }
+}
 
         $formula = Formula::findOrFail($data['formula_id']);
 
@@ -48,6 +66,9 @@ class ReservationController extends Controller
 
        $reservation = Reservation::create([
     ...$data,
+
+    'user_id' => auth()->id(),
+
     'total_price' => $formula->price,
     'deposit' => 0,
     'status' => 'pending',

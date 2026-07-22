@@ -21,6 +21,11 @@ Route::get('/reserver', [ReservationController::class, 'create']);
 Route::post('/reserver', [ReservationController::class, 'store']);
 
 Route::get(
+    '/reservation/{reservation}/success',
+    [ReservationController::class, 'success']
+)->name('reservation.success');
+
+Route::get(
     '/creneaux-disponibles',
     [ReservationController::class, 'availableSlots']
 );
