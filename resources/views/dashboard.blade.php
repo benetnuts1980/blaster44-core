@@ -65,6 +65,16 @@
                 style="width: {{ min(100, $progress) }}%;"
             ></div>
         </div>
+        @if($nextGrade !== 'MAX')
+
+    <div class="mt-3 text-sm text-gray-400">
+        Prochain grade :
+        <span class="text-lime-400 font-bold">
+            {{ $nextGrade }}
+        </span>
+    </div>
+
+@endif
     </div>
 </div>
 
@@ -87,6 +97,7 @@
                         {{ auth()->user()->games_played }}
                     </div>
                 </div>
+                
 
             </div>
 
