@@ -18,15 +18,55 @@
 
             <div class="grid md:grid-cols-3 gap-6">
 
-                <div class="bg-black rounded-2xl p-6 border border-gray-800">
-                    <div class="text-gray-400 text-sm">
-                        Grade
-                    </div>
+                @php
+    $points = auth()->user()->points;
 
-                    <div class="text-3xl font-black text-lime-400 mt-2">
-                        Recrue
-                    </div>
-                </div>
+    if ($points >= 1000) {
+        $grade = 'Capitaine';
+        $nextGrade = 'MAX';
+        $progress = 100;
+    } elseif ($points >= 600) {
+        $grade = 'Lieutenant';
+        $nextGrade = 'Capitaine';
+        $progress = (($points - 600) / 400) * 100;
+    } elseif ($points >= 300) {
+        $grade = 'Sergent';
+        $nextGrade = 'Lieutenant';
+        $progress = (($points - 300) / 300) * 100;
+    } elseif ($points >= 100) {
+        $grade = 'Soldat';
+        $nextGrade = 'Sergent';
+        $progress = (($points - 100) / 200) * 100;
+    } else {
+        $grade = 'Recrue';
+        $nextGrade = 'Soldat';
+        $progress = ($points / 100) * 100;
+    }
+@endphp
+
+<div class="bg-black rounded-2xl p-6 border border-gray-800">
+    <div class="text-gray-400 text-sm">
+        Grade
+    </div>
+
+    <div class="text-3xl font-black text-lime-400 mt-2">
+        {{ $grade }}
+    </div>
+
+    <div class="mt-4">
+        <div class="flex justify-between text-xs text-gray-500 mb-1">
+            <span>{{ $points }} pts</span>
+            <span>{{ $nextGrade }}</span>
+        </div>
+
+        <div class="w-full h-2 bg-gray-800 rounded-full overflow-hidden">
+            <div
+                class="h-full bg-lime-400 rounded-full"
+                style="width: {{ min(100, $progress) }}%;"
+            ></div>
+        </div>
+    </div>
+</div>
 
                 <div class="bg-black rounded-2xl p-6 border border-gray-800">
                     <div class="text-gray-400 text-sm">
