@@ -100,9 +100,57 @@
 
                         </div>
 
-                        <div class="text-sm px-3 py-1 rounded-full bg-lime-400/10 text-lime-400">
-                            {{ ucfirst($reservation->status) }}
-                        </div>
+                        <div class="flex flex-col items-end gap-2">
+
+    <div class="text-sm px-3 py-1 rounded-full bg-lime-400/10 text-lime-400">
+        {{ ucfirst($reservation->status) }}
+    </div>
+
+    @php
+        $canCancel =
+            $reservation->status !== 'cancelled'
+            &&
+            now()->lt(
+                \Carbon\Carbon::parse(
+                    $reservation->reservation_date->format('Y-m-d')
+                    .' '
+                    .$reservation->start_time
+                )->subHours(48)
+            );
+    @endphp
+
+    @if($reservation->status === 'cancelled')
+
+        <div class="text-red-400 text-sm font-semibold">
+            ❌ Réservation annulée
+        </div>
+
+    @elseif($canCancel)
+
+        <form
+            method="POST"
+            action="{{ route('reservation.cancel', $reservation) }}"
+            onsubmit="return confirm('Annuler cette réservation ?');"
+        >
+            @csrf
+
+            <button
+                type="submit"
+                class="bg-red-600 hover:bg-red-500 text-white text-sm px-3 py-2 rounded-lg transition"
+            >
+                Annuler
+            </button>
+        </form>
+
+    @else
+
+        <div class="text-orange-400 text-sm font-semibold">
+            ⛔ Annulation impossible (&lt; 48h)
+        </div>
+
+    @endif
+
+</div>
 
                     </div>
 

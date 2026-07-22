@@ -58,6 +58,11 @@ Route::middleware('auth')->group(function () {
         '/profile',
         [ProfileController::class, 'destroy']
     )->name('profile.destroy');
+    
+    Route::post(
+    '/reservation/{reservation}/cancel',
+    [ReservationController::class, 'cancel']
+)->name('reservation.cancel');
 });
 
 /*

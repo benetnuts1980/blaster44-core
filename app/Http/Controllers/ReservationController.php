@@ -125,4 +125,38 @@ public function success(Reservation $reservation)
         'reservation' => $reservation,
     ]);
 }
+public function cancel(Reservation $reservation)
+{
+    if (! auth()->check()) {
+        abort(403);
+    }
+
+    if ($reservation->user_id !== auth()->id()) {
+        abort(403);
+    }
+
+    $reservationDateTime = Carbon::parse(
+        $reservation->reservation_date->format('Y-m-d')
+        . ' '
+        . $reservation->start_time
+    );
+
+    if (now()->greaterThanOrEqualTo(
+        $reservationDateTime->copy()->subHours(48)
+    )) {
+        return back()->with(
+            'error',
+            'Cette réservation ne peut plus être annulée en ligne moins de 48h avant la partie.'
+        );
+    }
+
+    $reservation->update([
+        'status' => 'cancelled',
+    ]);
+
+    return back()->with(
+        'success',
+        'Réservation annulée avec succès.'
+    );
+}
 }
