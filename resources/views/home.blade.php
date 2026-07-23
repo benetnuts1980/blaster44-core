@@ -32,12 +32,12 @@ class="relative flex min-h-[85vh] items-center justify-center overflow-hidden">
             🔥 Belgique • Gel Blaster • Depuis 2026
         </span>
 
-        <h1 class="text-6xl md:text-8xl font-black uppercase tracking-wider text-white">
+        <h1 class="text-4xl sm:text-5xl md:text-8xl font-black uppercase tracking-wider text-white leading-tight">
     L'adrénaline
     <span class="text-lime-400">commence ici</span>
 </h1>
 
-<p class="mt-6 text-2xl text-gray-300">
+<p class="mt-6 text-lg sm:text-xl md:text-2xl text-gray-300 px-2">">
     Terrain immersif • Jusqu'à 12 joueurs
 </p>
 
@@ -51,7 +51,7 @@ class="relative flex min-h-[85vh] items-center justify-center overflow-hidden">
 
         </p>
 
-        <div class="grid grid-cols-3 gap-6 mt-12 max-w-3xl mx-auto text-white">
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-12 max-w-3xl mx-auto text-white">
 
             <div>
                 <div class="text-4xl font-black text-lime-400">12</div>

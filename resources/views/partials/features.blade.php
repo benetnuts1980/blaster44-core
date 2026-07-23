@@ -30,7 +30,7 @@
 
                         @if($formula->image)
                             <img
-                                src="{{ asset('storage/' . $formula->image) }}"
+                                src="{{ asset($formula->image) }}"
                                 alt="{{ $formula->name }}"
                                 class="w-full h-48 object-cover">
                         @endif
@@ -201,7 +201,7 @@
                 <div class="bg-[#111111] rounded-3xl overflow-hidden">
 
                     <img
-                        src="{{ asset('storage/' . $image->image) }}"
+                        src="{{ asset($image->image) }}"
                         alt="{{ $image->title }}"
                         class="w-full h-72 object-cover hover:scale-105 transition duration-500">
 
