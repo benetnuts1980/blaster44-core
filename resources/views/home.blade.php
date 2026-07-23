@@ -78,6 +78,10 @@ class="relative flex min-h-[85vh] items-center justify-center overflow-hidden">
                 🔫 Réserver
 
             </a>
+            <a href="/register"
+   class="border-2 border-yellow-400 text-yellow-400 font-bold px-10 py-5 rounded-2xl hover:bg-yellow-400 hover:text-black duration-300">
+    👤 Créer un compte
+</a>
 
             <a href="#formules"
                class="border-2 border-lime-400 text-lime-400 font-bold px-10 py-5 rounded-2xl hover:bg-lime-400 hover:text-black duration-300">
