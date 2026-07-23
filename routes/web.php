@@ -73,4 +73,12 @@ Route::middleware('auth')->group(function () {
 Route::get('/ranking', function () {
     return view('ranking');
 })->name('ranking');
+use App\Models\User;
+
+Route::get('/checkin/{token}', function ($token) {
+
+    $user = User::where('qr_token', $token)->firstOrFail();
+
+    return view('checkin', compact('user'));
+});
 require __DIR__.'/auth.php';

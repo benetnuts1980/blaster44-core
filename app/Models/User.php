@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Str;
 
 #[Fillable([
     'name',
@@ -18,6 +19,7 @@ use Illuminate\Notifications\Notifiable;
     'password',
     'points',
     'games_played',
+    'qr_token',
 ])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
@@ -30,6 +32,14 @@ class User extends Authenticatable
      *
      * @return array<string, string>
      */
+    protected static function booted(): void
+{
+    static::creating(function ($user) {
+        if (empty($user->qr_token)) {
+            $user->qr_token = Str::uuid()->toString();
+        }
+    });
+}
     protected function casts(): array
     {
         return [
