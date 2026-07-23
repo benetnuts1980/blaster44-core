@@ -70,10 +70,7 @@ class EditReservation extends EditRecord
         }
 
         return $data;
-    }
-
-    protected function afterSave(): void
-{
+  
     dd('AFTER SAVE');
 }
 }
