@@ -70,5 +70,7 @@ Route::middleware('auth')->group(function () {
 | Auth Breeze
 |--------------------------------------------------------------------------
 */
-
+Route::get('/ranking', function () {
+    return view('ranking');
+})->name('ranking');
 require __DIR__.'/auth.php';

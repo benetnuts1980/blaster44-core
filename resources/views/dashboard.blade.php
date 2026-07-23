@@ -16,7 +16,7 @@
                 Bienvenue dans votre espace joueur Blaster44
             </p>
 
-            <div class="grid md:grid-cols-3 gap-6">
+            <div class="grid md:grid-cols-4 gap-6">
 
                 @php
     $points = auth()->user()->points;
@@ -52,7 +52,117 @@
     <div class="text-3xl font-black text-lime-400 mt-2">
         {{ $grade }}
     </div>
+@php
+    $rank = \App\Models\User::where(
+        'points',
+        '>',
+        auth()->user()->points
+    )->count() + 1;
 
+    $totalPlayers = \App\Models\User::count();
+@endphp
+@if($rank === 1)
+
+    <div class="mt-8 bg-gradient-to-r from-yellow-500/20 to-lime-400/20 border border-yellow-500/30 rounded-2xl p-6">
+
+        <div class="text-2xl font-black text-yellow-400">
+            👑 Leader du classement
+        </div>
+
+        <div class="text-gray-300 mt-2">
+            Félicitations ! Tu es actuellement le joueur numéro 1 de Blaster44.
+        </div>
+
+    </div>
+
+@endif
+<div class="bg-black rounded-2xl p-6 border border-gray-800">
+
+    <div class="text-gray-400 text-sm">
+        Classement
+    </div>
+
+    <div class="text-3xl font-black text-lime-400 mt-2">
+        #{{ $rank }}
+    </div>
+
+    <div class="text-sm text-gray-500 mt-2">
+        sur {{ $totalPlayers }} joueur(s)
+    </div>
+@php
+    $completedGames = auth()->user()
+        ->reservations()
+        ->with(['terrain', 'formula'])
+        ->where('status', 'completed')
+        ->latest('reservation_date')
+        ->limit(10)
+        ->get();
+@endphp
+
+<div class="mt-10 bg-black rounded-2xl p-6 border border-gray-800">
+
+    <h2 class="text-2xl font-bold mb-6">
+        📜 Historique des parties
+    </h2>
+
+    @if($completedGames->isEmpty())
+
+        <p class="text-gray-400">
+            Aucune partie terminée pour le moment.
+        </p>
+
+    @else
+
+        <div class="space-y-4">
+
+            @foreach($completedGames as $game)
+
+                <div class="bg-[#111111] rounded-xl p-4 border border-gray-800">
+
+                    <div class="flex justify-between items-center">
+
+                        <div>
+
+                            <div class="font-bold text-lime-400">
+                                {{ $game->terrain->name }}
+                            </div>
+
+                            <div class="text-gray-400 text-sm">
+                                {{ $game->reservation_date->format('d/m/Y') }}
+                                à
+                                {{ substr($game->start_time, 0, 5) }}
+                            </div>
+
+                            <div class="text-gray-500 text-sm mt-1">
+                                {{ $game->players_count }} joueur(s)
+                            </div>
+
+                        </div>
+
+                        <div class="text-right">
+
+                            <div class="text-green-400 font-bold">
+                                ✔ Terminée
+                            </div>
+
+                            <div class="text-lime-400 text-sm mt-1">
+                                +10 pts
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            @endforeach
+
+        </div>
+
+    @endif
+
+</div>
+</div>
     <div class="mt-4">
         <div class="flex justify-between text-xs text-gray-500 mb-1">
             <span>{{ $points }} pts</span>
@@ -214,6 +324,140 @@
     @endif
 
 </div>
+@php
+    $topPlayers = \App\Models\User::orderByDesc('points')
+        ->limit(5)
+        ->get();
+@endphp
+
+<div class="mt-10 bg-black rounded-2xl p-6 border border-gray-800">
+
+    <div class="flex justify-between items-center mb-6">
+
+    <h2 class="text-2xl font-bold">
+        🏆 Top Joueurs Blaster44
+    </h2>
+
+    <a
+        href="/ranking"
+        class="bg-yellow-500 hover:bg-yellow-400 text-black font-bold px-4 py-2 rounded-xl transition"
+    >
+        Classement complet →
+    </a>
+
+</div>
+
+    <div class="space-y-3">
+
+        @foreach($topPlayers as $index => $player)
+
+            <div class="flex justify-between items-center bg-[#111111] rounded-xl p-4">
+
+                <div class="flex items-center gap-3">
+
+                    <div class="text-2xl">
+
+                        @if($index === 0)
+                            🥇
+                        @elseif($index === 1)
+                            🥈
+                        @elseif($index === 2)
+                            🥉
+                        @else
+                            🎯
+                        @endif
+
+                    </div>
+
+                    <div>
+                        <div class="font-bold text-white">
+                            {{ $player->pseudo ?? $player->name }}
+                        </div>
+
+                        <div class="text-sm text-gray-500">
+                            {{ $player->games_played }} partie(s)
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="text-lime-400 font-black text-xl">
+                    {{ $player->points }} pts
+                </div>
+
+            </div>
+
+        @endforeach
+
+    </div>
+
+</div>
+@php
+    $user = auth()->user();
+
+    $firstGame = $user->games_played >= 1;
+    $veteran = $user->games_played >= 5;
+    $centurion = $user->points >= 100;
+    $topThree = $rank <= 3;
+    $leader = $rank === 1;
+@endphp
+
+<div class="mt-10 bg-black rounded-2xl p-6 border border-gray-800">
+
+    <h2 class="text-2xl font-bold mb-6">
+        🎖️ Mes succès
+    </h2>
+
+    <div class="grid md:grid-cols-2 gap-4">
+
+        <div class="rounded-xl p-4 border {{ $firstGame ? 'border-lime-400 bg-lime-400/10' : 'border-gray-700 bg-[#111111]' }}">
+            <div class="font-bold">
+                🏅 Première partie
+            </div>
+            <div class="text-sm text-gray-400">
+                Jouer sa première partie
+            </div>
+        </div>
+
+        <div class="rounded-xl p-4 border {{ $veteran ? 'border-lime-400 bg-lime-400/10' : 'border-gray-700 bg-[#111111]' }}">
+            <div class="font-bold">
+                🎖️ Vétéran
+            </div>
+            <div class="text-sm text-gray-400">
+                Jouer 5 parties
+            </div>
+        </div>
+
+        <div class="rounded-xl p-4 border {{ $centurion ? 'border-lime-400 bg-lime-400/10' : 'border-gray-700 bg-[#111111]' }}">
+            <div class="font-bold">
+                ⭐ Centurion
+            </div>
+            <div class="text-sm text-gray-400">
+                Atteindre 100 points
+            </div>
+        </div>
+
+        <div class="rounded-xl p-4 border {{ $topThree ? 'border-lime-400 bg-lime-400/10' : 'border-gray-700 bg-[#111111]' }}">
+            <div class="font-bold">
+                🏆 Top 3
+            </div>
+            <div class="text-sm text-gray-400">
+                Entrer dans le Top 3
+            </div>
+        </div>
+
+        <div class="rounded-xl p-4 border {{ $leader ? 'border-yellow-400 bg-yellow-400/10' : 'border-gray-700 bg-[#111111]' }}">
+            <div class="font-bold">
+                👑 Leader
+            </div>
+            <div class="text-sm text-gray-400">
+                Être numéro 1 du classement
+            </div>
+        </div>
+
+    </div>
+
+</div>
 
             <div class="mt-10 flex flex-wrap gap-4">
 
@@ -230,6 +474,12 @@
                 >
                     Mon profil
                 </a>
+                <a
+    href="/ranking"
+    class="border border-yellow-400 text-yellow-400 px-6 py-3 rounded-xl hover:bg-yellow-400 hover:text-black transition"
+>
+    🏆 Classement complet
+</a>
 
             </div>
 
