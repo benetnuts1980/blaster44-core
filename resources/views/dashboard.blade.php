@@ -52,9 +52,7 @@
     <div class="text-3xl font-black text-lime-400 mt-2">
     {{ $grade }}
 </div>
-<div class="text-3xl font-black text-lime-400 mt-2">
-    {{ $grade }}
-</div>
+
 
 <div class="mt-4">
     <div class="flex justify-between text-xs text-gray-500 mb-1">
