@@ -25,7 +25,7 @@ class="relative flex min-h-[85vh] items-center justify-center overflow-hidden">
 
         <img
     src="{{ asset('images/logo.png') }}"
-    class="mx-auto w-40 md:w-52 mb-6"
+    class="mx-auto w-24 md:w-52 mb-6"
     alt="Blaster44">
 
         <span class="inline-block px-5 py-2 rounded-full border border-lime-400/30 bg-lime-400/10 text-lime-400 font-semibold mb-8">
@@ -37,7 +37,7 @@ class="relative flex min-h-[85vh] items-center justify-center overflow-hidden">
     <span class="text-lime-400">commence ici</span>
 </h1>
 
-<p class="mt-6 text-lg sm:text-xl md:text-2xl text-gray-300 px-2">">
+<p class="mt-6 text-lg sm:text-xl md:text-2xl text-gray-300 px-2">
     Terrain immersif • Jusqu'à 12 joueurs
 </p>
 
@@ -51,7 +51,7 @@ class="relative flex min-h-[85vh] items-center justify-center overflow-hidden">
 
         </p>
 
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-12 max-w-3xl mx-auto text-white">
+        <div class="grid grid-cols-3 gap-4 mt-12 max-w-3xl mx-auto text-white">
 
             <div>
                 <div class="text-4xl font-black text-lime-400">12</div>
