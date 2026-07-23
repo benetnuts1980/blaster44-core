@@ -50,36 +50,8 @@
     </div>
 
     <div class="text-3xl font-black text-lime-400 mt-2">
-    {{ $grade }}
-</div>
-<div class="text-3xl font-black text-lime-400 mt-2">
-    {{ $grade }}
-</div>
-
-<div class="mt-4">
-    <div class="flex justify-between text-xs text-gray-500 mb-1">
-        <span>{{ $points }} pts</span>
-        <span>{{ $nextGrade }}</span>
+        {{ $grade }}
     </div>
-
-    <div class="w-full h-2 bg-gray-800 rounded-full overflow-hidden">
-        <div
-            class="h-full bg-lime-400 rounded-full"
-            style="width: {{ min(100, $progress) }}%;"
-        ></div>
-    </div>
-
-    @if($nextGrade !== 'MAX')
-        <div class="mt-3 text-sm text-gray-400">
-            Prochain grade :
-            <span class="text-lime-400 font-bold">
-                {{ $nextGrade }}
-            </span>
-        </div>
-    @endif
-</div>
-
-</div>
 @php
     $rank = \App\Models\User::where(
         'points',
@@ -117,10 +89,104 @@
     <div class="text-sm text-gray-500 mt-2">
         sur {{ $totalPlayers }} joueur(s)
     </div>
+@php
+    $completedGames = auth()->user()
+        ->reservations()
+        ->with(['terrain', 'formula'])
+        ->where('status', 'completed')
+        ->latest('reservation_date')
+        ->limit(10)
+        ->get();
+@endphp
 
+<div class="mt-10 bg-black rounded-2xl p-6 border border-gray-800">
+
+    <h2 class="text-2xl font-bold mb-6">
+        📜 Historique des parties
+    </h2>
+
+    @if($completedGames->isEmpty())
+
+        <p class="text-gray-400">
+            Aucune partie terminée pour le moment.
+        </p>
+
+    @else
+
+        <div class="space-y-4">
+
+            @foreach($completedGames as $game)
+
+                <div class="bg-[#111111] rounded-xl p-4 border border-gray-800">
+
+                    <div class="flex justify-between items-center">
+
+                        <div>
+
+                            <div class="font-bold text-lime-400">
+                                {{ $game->terrain->name }}
+                            </div>
+
+                            <div class="text-gray-400 text-sm">
+                                {{ $game->reservation_date->format('d/m/Y') }}
+                                à
+                                {{ substr($game->start_time, 0, 5) }}
+                            </div>
+
+                            <div class="text-gray-500 text-sm mt-1">
+                                {{ $game->players_count }} joueur(s)
+                            </div>
+
+                        </div>
+
+                        <div class="text-right">
+
+                            <div class="text-green-400 font-bold">
+                                ✔ Terminée
+                            </div>
+
+                            <div class="text-lime-400 text-sm mt-1">
+                                +10 pts
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            @endforeach
+
+        </div>
+
+    @endif
 
 </div>
+</div>
+    <div class="mt-4">
+        <div class="flex justify-between text-xs text-gray-500 mb-1">
+            <span>{{ $points }} pts</span>
+            <span>{{ $nextGrade }}</span>
+        </div>
 
+        <div class="w-full h-2 bg-gray-800 rounded-full overflow-hidden">
+            <div
+                class="h-full bg-lime-400 rounded-full"
+                style="width: {{ min(100, $progress) }}%;"
+            ></div>
+        </div>
+        @if($nextGrade !== 'MAX')
+
+    <div class="mt-3 text-sm text-gray-400">
+        Prochain grade :
+        <span class="text-lime-400 font-bold">
+            {{ $nextGrade }}
+        </span>
+    </div>
+
+@endif
+    </div>
+</div>
 
                 <div class="bg-black rounded-2xl p-6 border border-gray-800">
                     <div class="text-gray-400 text-sm">
