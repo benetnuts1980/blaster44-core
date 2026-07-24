@@ -97,7 +97,7 @@
             Nos <span class="text-lime-400">Terrains</span>
         </h2>
 
-        <div class="grid lg:grid-cols-2 gap-8">
+        <div class="grid lg:grid-cols-3 gap-8">
 
             <div class="bg-[#111111] rounded-3xl overflow-hidden border border-lime-400/20 hover:border-lime-400 transition duration-300 shadow-lg shadow-lime-500/10">
 
@@ -172,7 +172,42 @@
                 </div>
 
             </div>
+                <div class="bg-[#111111] rounded-3xl overflow-hidden border border-yellow-400/20 hover:border-yellow-400 transition duration-300 shadow-lg shadow-yellow-500/10">
 
+    <img
+        src="{{ asset('images/terrains/marche.jpg') }}"
+        alt="Le Futoir"
+        class="w-full h-72 object-cover">
+
+    <div class="p-6">
+
+        <h3 class="text-3xl font-black text-white mb-4">
+            🪵 Le Futoir
+        </h3>
+
+        <div class="flex flex-wrap gap-2 mb-5">
+
+            <span class="bg-yellow-500/10 text-yellow-400 px-3 py-1 rounded-full text-sm">
+                👥 4 à 20 joueurs
+            </span>
+
+            <span class="bg-yellow-500/10 text-yellow-400 px-3 py-1 rounded-full text-sm">
+                🎯 Découverte
+            </span>
+
+            <span class="bg-yellow-500/10 text-yellow-400 px-3 py-1 rounded-full text-sm">
+                🛡️ Jeunes joueurs
+            </span>
+
+        </div>
+
+        <p class="text-gray-400 leading-relaxed">
+            Terrain idéal pour découvrir le Gel Blaster en toute sécurité.
+        </p>
+
+    </div>
+
+</div>
         </div>
 
     </div>

@@ -7,13 +7,13 @@
 
         <div class="hidden md:flex items-center gap-8 text-white font-semibold">
 
-            <a href="#home" class="hover:text-lime-400 transition">Accueil</a>
+            <a href="/#home" class="hover:text-lime-400 transition">Accueil</a>
 
-            <a href="#formules" class="hover:text-lime-400 transition">Formules</a>
+            <a href="/#formules" class="hover:text-lime-400 transition">Formules</a>
 
-            <a href="#terrains" class="hover:text-lime-400 transition">Terrains</a>
+            <a href="/#terrains" class="hover:text-lime-400 transition">Terrains</a>
 
-            <a href="#galerie" class="hover:text-lime-400 transition">Galerie</a>
+            <a href="/#galerie" class="hover:text-lime-400 transition">Galerie</a>
 
             <a href="#contact" class="hover:text-lime-400 transition">Contact</a>
 
