@@ -59,7 +59,7 @@ class="relative flex min-h-[85vh] items-center justify-center overflow-hidden">
             </div>
 
             <div>
-    <div class="text-4xl font-black text-lime-400">1</div>
+    <div class="text-4xl font-black text-lime-400">3</div>
     <div>Terrain immersif</div>
 </div>
 
