@@ -452,6 +452,48 @@
     @endif
 
 </div>
+<div class="mt-10 bg-black rounded-2xl p-6 border border-gray-800">
+
+    <h2 class="text-2xl font-bold mb-4">
+        📱 Ma carte membre
+    </h2>
+
+    <div class="text-center">
+
+    <div class="text-2xl font-bold text-white mb-2">
+        {{ auth()->user()->pseudo }}
+    </div>
+
+    <div class="text-gray-400">
+        Carte membre Blaster44
+    </div>
+
+    <div class="mt-6 bg-white rounded-xl p-4 inline-block">
+
+        <img
+            src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data={{ urlencode(url('/checkin/' . auth()->user()->qr_token)) }}"
+            alt="QR Code"
+        >
+
+    </div>
+
+    <div class="mt-4 text-sm text-gray-500">
+        Présentez ce QR Code à l'accueil
+    </div>
+
+</div>
+
+    <div class="mt-4">
+        <a
+            href="/checkin/{{ auth()->user()->qr_token }}"
+            target="_blank"
+            class="bg-lime-400 text-black font-bold px-4 py-2 rounded-xl"
+        >
+            Voir ma carte
+        </a>
+    </div>
+
+</div>
 
             <div class="mt-10 flex flex-wrap gap-4">
 

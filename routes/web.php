@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Models\Formula;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReservationController;
+use App\Models\User;
+use App\Models\Checkin;
 
 /*
 |--------------------------------------------------------------------------
@@ -73,12 +75,30 @@ Route::middleware('auth')->group(function () {
 Route::get('/ranking', function () {
     return view('ranking');
 })->name('ranking');
-use App\Models\User;
+
 
 Route::get('/checkin/{token}', function ($token) {
 
     $user = User::where('qr_token', $token)->firstOrFail();
 
-    return view('checkin', compact('user'));
+    $alreadyCheckedToday = Checkin::where('user_id', $user->id)
+        ->whereDate('created_at', today())
+        ->exists();
+
+    if (! $alreadyCheckedToday) {
+
+        Checkin::create([
+            'user_id' => $user->id,
+            'points_awarded' => 10,
+        ]);
+
+        $user->increment('points', 10);
+        $user->increment('games_played');
+    }
+
+    return view('checkin', [
+        'user' => $user->fresh(),
+        'alreadyCheckedToday' => $alreadyCheckedToday,
+    ]);
 });
 require __DIR__.'/auth.php';

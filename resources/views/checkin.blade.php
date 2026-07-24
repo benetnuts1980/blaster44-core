@@ -34,11 +34,42 @@
 
             </div>
 
-            <button
-                class="mt-8 w-full bg-lime-400 text-black font-bold py-3 rounded-xl"
-            >
-                ✅ Valider présence
-            </button>
+            <div class="mt-8 bg-green-500/10 border border-green-500 rounded-xl p-4">
+
+    @if($alreadyCheckedToday)
+
+    <div class="mt-8 bg-orange-500/10 border border-orange-500 rounded-xl p-4">
+
+        <div class="text-orange-400 font-bold text-xl">
+            ⚠️ Présence déjà enregistrée aujourd'hui
+        </div>
+
+    </div>
+
+@else
+
+    <div class="mt-8 bg-green-500/10 border border-green-500 rounded-xl p-4">
+
+        <div class="text-green-400 font-bold text-xl">
+            ✅ Présence validée
+        </div>
+
+        <div class="text-gray-300 mt-2">
+            +10 points ajoutés<br>
+            +1 partie enregistrée
+        </div>
+
+    </div>
+
+@endif
+
+    <div class="text-gray-300 mt-2">
+        +10 points ajoutés
+        <br>
+        +1 partie enregistrée
+    </div>
+
+</div>
 
         </div>
 

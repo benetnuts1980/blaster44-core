@@ -83,6 +83,7 @@ public static function hasConflict(
     if ($newStart < $existingEnd && $newEnd > $existingStart) {
         return true;
     }
+    
 }
 
 return false;
