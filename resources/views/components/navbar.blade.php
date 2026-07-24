@@ -15,16 +15,55 @@
 
             <a href="/#galerie" class="hover:text-lime-400 transition">Galerie</a>
 
-            <a href="#contact" class="hover:text-lime-400 transition">Contact</a>
+            <a href="/#contact" class="hover:text-lime-400 transition">Contact</a>
 
         </div>
 
-        <a href="/reserver"
-           class="rounded-xl bg-lime-400 px-6 py-3 font-bold text-black transition hover:scale-105">
+        <div class="flex items-center gap-4">
 
-            Réserver
+    @auth
 
+        <a href="/dashboard"
+           class="text-lime-400 font-bold">
+            👤 {{ auth()->user()->pseudo }}
         </a>
+
+        <a href="/profile"
+           class="text-white hover:text-lime-400 transition">
+            Mon compte
+        </a>
+
+        <form method="POST" action="{{ route('logout') }}">
+            @csrf
+
+            <button
+                type="submit"
+                class="border border-red-500 text-red-500 px-4 py-2 rounded-xl hover:bg-red-500 hover:text-white transition"
+            >
+                Déconnexion
+            </button>
+        </form>
+
+    @else
+
+        <a href="/login"
+           class="text-white hover:text-lime-400 transition">
+            Connexion
+        </a>
+
+        <a href="/register"
+           class="border border-lime-400 text-lime-400 px-4 py-2 rounded-xl hover:bg-lime-400 hover:text-black transition">
+            Inscription
+        </a>
+
+    @endauth
+
+    <a href="/reserver"
+       class="rounded-xl bg-lime-400 px-6 py-3 font-bold text-black transition hover:scale-105">
+        Réserver
+    </a>
+
+</div>
 
     </div>
 </nav>
