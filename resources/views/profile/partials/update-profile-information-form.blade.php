@@ -18,6 +18,40 @@
         @method('patch')
 
         <div>
+    <x-input-label for="pseudo" value="Pseudo" />
+
+    <x-text-input
+        id="pseudo"
+        name="pseudo"
+        type="text"
+        class="mt-1 block w-full"
+        :value="old('pseudo', $user->pseudo)"
+    />
+
+    <x-input-error
+        class="mt-2"
+        :messages="$errors->get('pseudo')"
+    />
+</div>
+
+<div>
+    <x-input-label for="phone" value="Téléphone" />
+
+    <x-text-input
+        id="phone"
+        name="phone"
+        type="text"
+        class="mt-1 block w-full"
+        :value="old('phone', $user->phone)"
+    />
+
+    <x-input-error
+        class="mt-2"
+        :messages="$errors->get('phone')"
+    />
+</div>
+
+        <div>
             <x-input-label for="name" value="Nom complet" />
             <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" :value="old('name', $user->name)" required autofocus autocomplete="name" />
             <x-input-error class="mt-2" :messages="$errors->get('name')" />
