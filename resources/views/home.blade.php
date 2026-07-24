@@ -4,11 +4,10 @@
 
 @section('content')
 
-<x-navbar />
+
 
 <section id="home"
-class="relative flex min-h-[85vh] items-center justify-center overflow-hidden">
-
+    class="relative flex min-h-[85vh] items-center justify-center overflow-hidden">
     <!-- Image de fond -->
     <img
         src="{{ asset('images/hero.jpg') }}"
@@ -23,10 +22,7 @@ class="relative flex min-h-[85vh] items-center justify-center overflow-hidden">
 
     <div class="relative z-10 text-center max-w-5xl px-6">
 
-        <img
-    src="{{ asset('images/logo.png') }}"
-    class="mx-auto w-24 md:w-52 mb-6"
-    alt="Blaster44">
+
 
         <span class="inline-block px-5 py-2 rounded-full border border-lime-400/30 bg-lime-400/10 text-lime-400 font-semibold mb-8">
             🔥 Belgique • Gel Blaster • Depuis 2026
@@ -60,11 +56,11 @@ class="relative flex min-h-[85vh] items-center justify-center overflow-hidden">
 
             <div>
     <div class="text-4xl font-black text-lime-400">3</div>
-    <div>Terrain immersif</div>
+    <div>3 terrains</div>
 </div>
 
             <div>
-                <div class="text-4xl font-black text-lime-400">100%</div>
+                <div class="text-4xl font-black text-lime-400">5</div>
                 <div>Formules</div>
             </div>
 
@@ -113,7 +109,7 @@ class="relative flex min-h-[85vh] items-center justify-center overflow-hidden">
 
             <p>📱 0471 85 29 79</p>
 
-            <p>🔫 Jusqu'à 12 joueurs</p>
+            <p>🔫 Jusqu'à 20 joueurs</p>
 <p>🏘️ Terrain immersif</p>
 <p>🚗 Déplacement à domicile possible</p>
 
@@ -121,7 +117,7 @@ class="relative flex min-h-[85vh] items-center justify-center overflow-hidden">
 
         <div class="mt-10">
 
-            <a href="https://wa.me/32473476373"
+            <a href="https://wa.me/32471852979"
                target="_blank"
                class="bg-lime-400 text-black font-bold px-8 py-4 rounded-2xl">
 

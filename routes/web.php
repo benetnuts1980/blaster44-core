@@ -110,4 +110,12 @@ Route::view('/anniversaire', 'anniversaire')
     ->name('terrains');
     Route::view('/faq', 'faq')
     ->name('faq');
+    Route::view('/mentions-legales', 'mentions-legales')
+    ->name('mentions-legales');
+
+Route::view('/cgv', 'cgv')
+    ->name('cgv');
+
+Route::view('/confidentialite', 'confidentialite')
+    ->name('confidentialite');
 require __DIR__.'/auth.php';

@@ -115,7 +115,7 @@
                     <div class="flex flex-wrap gap-2 mb-5">
 
                         <span class="bg-lime-400/10 text-lime-400 px-3 py-1 rounded-full text-sm">
-                            👥 2 à 12 joueurs
+                            👥 4 à 20 joueurs
                         </span>
 
                         <span class="bg-lime-400/10 text-lime-400 px-3 py-1 rounded-full text-sm">
@@ -152,7 +152,7 @@
                     <div class="flex flex-wrap gap-2 mb-5">
 
                         <span class="bg-blue-500/10 text-blue-400 px-3 py-1 rounded-full text-sm">
-                            👥 2 à 12 joueurs
+                            👥 4 à 20 joueurs
                         </span>
 
                         <span class="bg-blue-500/10 text-blue-400 px-3 py-1 rounded-full text-sm">
