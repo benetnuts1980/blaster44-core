@@ -109,7 +109,7 @@
                 <div class="p-6">
 
                     <h3 class="text-3xl font-black text-white mb-4">
-                        🏘️ Terrain Village
+                        🏘️ Le Village
                     </h3>
 
                     <div class="flex flex-wrap gap-2 mb-5">
@@ -146,7 +146,7 @@
                 <div class="p-6">
 
                     <h3 class="text-3xl font-black text-white mb-4">
-                        🏪 Terrain Marché
+                        🏪 Le Marché
                     </h3>
 
                     <div class="flex flex-wrap gap-2 mb-5">

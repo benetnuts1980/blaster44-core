@@ -267,12 +267,12 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     name="players_count"
     value="{{ old('players_count') }}"
     class="w-full bg-black border border-gray-700 rounded-xl px-4 py-3 text-white"
-    min="1"
-    max="12"
+    min="4"
+    max="20"
     required
 >
 <p class="text-sm text-gray-500 mt-1">
-    Maximum 12 joueurs actuellement.
+    Maximum 20 joueurs actuellement.
 </p>
             </div>
 
