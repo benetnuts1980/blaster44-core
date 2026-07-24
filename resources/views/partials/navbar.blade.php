@@ -11,7 +11,19 @@
 
             <a href="#formules" class="hover:text-lime-400 transition">Formules</a>
 
-            <a href="#terrains" class="hover:text-lime-400 transition">Terrains</a>
+            <a href="/anniversaire" class="hover:text-lime-400 transition">
+    Anniversaire
+</a>
+
+<a href="/team-building" class="hover:text-lime-400 transition">
+    Team Building
+</a>
+
+            <a href="/anniversaire" class="hover:text-lime-400 transition">Anniversaire</a>
+
+            <a href="/terrains" class="hover:text-lime-400 transition">
+    Terrains
+</a>
 
             <a href="#galerie" class="hover:text-lime-400 transition">Galerie</a>
 
@@ -20,6 +32,9 @@
             <a href="/ranking" class="hover:text-lime-400 transition">
                 🏆 Classement
             </a>
+            <a href="/faq" class="hover:text-lime-400 transition">
+    FAQ
+</a>
 
         </div>
 

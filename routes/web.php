@@ -100,5 +100,14 @@ Route::get('/checkin/{token}', function ($token) {
         'user' => $user->fresh(),
         'alreadyCheckedToday' => $alreadyCheckedToday,
     ]);
+    
 });
+Route::view('/anniversaire', 'anniversaire')
+    ->name('anniversaire');
+    Route::view('/team-building', 'team-building')
+    ->name('team-building');
+    Route::view('/terrains', 'terrains')
+    ->name('terrains');
+    Route::view('/faq', 'faq')
+    ->name('faq');
 require __DIR__.'/auth.php';
