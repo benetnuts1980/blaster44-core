@@ -9,7 +9,11 @@ RUN apt-get update && apt-get install -y \
     libzip-dev \
     libsqlite3-dev \
     sqlite3 \
-    && docker-php-ext-install intl zip pdo pdo_sqlite
+    libpng-dev \
+    libjpeg62-turbo-dev \
+    libfreetype6-dev \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install gd intl zip pdo pdo_sqlite
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
@@ -26,4 +30,5 @@ RUN chmod -R 775 storage bootstrap/cache
 
 EXPOSE 8080
 
+RUN php artisan optimize:clear || truehom
 CMD php artisan serve --host=0.0.0.0 --port=8080
