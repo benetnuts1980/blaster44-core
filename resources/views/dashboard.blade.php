@@ -48,7 +48,7 @@
 @endphp
 
 <div class="grid md:grid-cols-4 gap-6">
-    
+
 <div class="bg-black rounded-2xl p-6 border border-gray-800">
     <div class="text-gray-400 text-sm">
         Grade
@@ -464,7 +464,7 @@
     </h2>
 
     <div class="text-center">
-
+@php
     $rank = \App\Models\User::where(
         'points',
         '>',
