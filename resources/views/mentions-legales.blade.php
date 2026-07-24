@@ -1,20 +1,45 @@
 @extends('layouts.app')
 
-@section('title', 'Page en construction')
+@section('title', 'Mentions légales')
 
 @section('content')
 
-<div class="min-h-screen bg-[#0A0A0A] text-white flex items-center justify-center">
+<div class="min-h-screen bg-[#0A0A0A] text-white py-32">
 
-    <div class="text-center">
+    <div class="max-w-4xl mx-auto px-6">
 
-        <h1 class="text-5xl font-black text-lime-400">
-            🚧 En cours de rédaction
+        <h1 class="text-5xl font-black mb-10">
+            Mentions légales
         </h1>
 
-        <p class="mt-6 text-gray-400">
-            Cette page sera disponible prochainement.
-        </p>
+        <div class="space-y-6 text-gray-300">
+
+            <p>
+                Le site Blaster44 est un site dédié à l'organisation d'activités de Gel Blaster.
+            </p>
+
+            <p>
+                Responsable du site :
+                Benoit Toussaint
+            </p>
+
+            <p>
+                Adresse :
+                Rue de la Gazéification,
+                7350 Thulin (Hensies),
+                Belgique.
+            </p>
+
+            <p>
+                Téléphone :
+                0471 85 29 79
+            </p>
+
+            <p>
+                Les informations légales seront complétées lors de la création officielle de la structure.
+            </p>
+
+        </div>
 
     </div>
 

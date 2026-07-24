@@ -16,9 +16,12 @@
                 Bienvenue dans votre espace joueur Blaster44
             </p>
 
-            <div class="grid md:grid-cols-4 gap-6">
+            @php
+    $checkins = \App\Models\Checkin::where('user_id', auth()->id())
+        ->latest()
+        ->take(10)
+        ->get();
 
-                @php
     $points = auth()->user()->points;
 
     if ($points >= 1000) {
@@ -44,6 +47,8 @@
     }
 @endphp
 
+<div class="grid md:grid-cols-4 gap-6">
+    
 <div class="bg-black rounded-2xl p-6 border border-gray-800">
     <div class="text-gray-400 text-sm">
         Grade
@@ -460,13 +465,49 @@
 
     <div class="text-center">
 
+    $rank = \App\Models\User::where(
+        'points',
+        '>',
+        auth()->user()->points
+    )->count() + 1;
+
+    $points = auth()->user()->points;
+
+    if ($points >= 1000) {
+        $grade = 'Légende';
+    } elseif ($points >= 500) {
+        $grade = 'Vétéran';
+    } elseif ($points >= 250) {
+        $grade = 'Elite';
+    } elseif ($points >= 100) {
+        $grade = 'Soldat';
+    } else {
+        $grade = 'Recrue';
+    }
+@endphp
     <div class="text-2xl font-bold text-white mb-2">
         {{ auth()->user()->pseudo }}
     </div>
 
     <div class="text-gray-400">
-        Carte membre Blaster44
+    Carte membre Blaster44
+</div>
+
+<div class="mt-4 space-y-2">
+
+    <div class="text-lime-400 font-bold">
+        🏅 Grade : {{ $grade }}
     </div>
+
+    <div class="text-yellow-400 font-bold">
+        🏆 Rang : #{{ $rank }}
+    </div>
+
+    <div class="text-white font-bold">
+        ⭐ {{ auth()->user()->points }} points
+    </div>
+
+</div>
 
     <div class="mt-6 bg-white rounded-xl p-4 inline-block">
 
@@ -492,6 +533,49 @@
             Voir ma carte
         </a>
     </div>
+    @php
+    $checkins = \App\Models\Checkin::where('user_id', auth()->id())
+        ->latest()
+        ->take(10)
+        ->get();
+@endphp
+    <div class="mt-10 bg-black rounded-2xl p-6 border border-gray-800">
+
+    <h2 class="text-2xl font-bold mb-6">
+        📜 Historique des présences
+    </h2>
+
+    @if($checkins->count())
+
+        <div class="space-y-3">
+
+            @foreach($checkins as $checkin)
+
+                <div class="flex justify-between items-center border-b border-gray-800 pb-3">
+
+                    <div class="text-gray-300">
+                        {{ $checkin->created_at->format('d/m/Y H:i') }}
+                    </div>
+
+                    <div class="text-lime-400 font-bold">
+                        +{{ $checkin->points_awarded }} pts
+                    </div>
+
+                </div>
+
+            @endforeach
+
+        </div>
+
+    @else
+
+        <div class="text-gray-500">
+            Aucune présence enregistrée.
+        </div>
+
+    @endif
+
+</div>
 
 </div>
 
