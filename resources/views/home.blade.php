@@ -38,7 +38,7 @@ class="relative flex min-h-[85vh] items-center justify-center overflow-hidden">
 </h1>
 
 <p class="mt-6 text-lg sm:text-xl md:text-2xl text-gray-300 px-2">
-    Terrain immersif • Jusqu'à 12 joueurs
+    Terrain immersifs • Jusqu'à 20 joueurs
 </p>
 
 <p class="mt-2 text-lime-400 font-semibold">
@@ -47,14 +47,14 @@ class="relative flex min-h-[85vh] items-center justify-center overflow-hidden">
 
         <p class="mt-8 text-xl text-gray-300 max-w-3xl mx-auto leading-9">
 
-            Terrain immersif • Anniversaires • Entreprises • Déplacement à domicile
+            Terrain immersifs • Anniversaires • Entreprises • Déplacement à domicile
 
         </p>
 
         <div class="grid grid-cols-3 gap-4 mt-12 max-w-3xl mx-auto text-white">
 
             <div>
-                <div class="text-4xl font-black text-lime-400">12</div>
+                <div class="text-4xl font-black text-lime-400">20</div>
                 <div>Joueurs</div>
             </div>
 
@@ -65,7 +65,7 @@ class="relative flex min-h-[85vh] items-center justify-center overflow-hidden">
 
             <div>
                 <div class="text-4xl font-black text-lime-400">100%</div>
-                <div>Fun</div>
+                <div>Formules</div>
             </div>
 
         </div>
@@ -111,7 +111,7 @@ class="relative flex min-h-[85vh] items-center justify-center overflow-hidden">
             <p>📍 Rue de la Gazéification</p>
             <p>7350 Thulin (Hensies)</p>
 
-            <p>📱 0473 47 63 73</p>
+            <p>📱 0471 85 29 79</p>
 
             <p>🔫 Jusqu'à 12 joueurs</p>
 <p>🏘️ Terrain immersif</p>

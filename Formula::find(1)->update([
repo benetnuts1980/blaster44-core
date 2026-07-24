@@ -1,0 +1,44 @@
+[90m= [39m[34;4mIlluminate\Database\Eloquent\Collection[39;24m {#9070
+    [34mall[39m: [
+      [34;4mApp\Models\Formula[39;24m {#9096
+        [34mid[39m: [35m1[39m,
+        [34mname[39m: [32m"[39m[32mrecrue[39m[32m"[39m,
+        [34mprice[39m: [35m20[39m,
+        [34mduration[39m: [35m60[39m,
+        [34mmin_players[39m: [35m2[39m,
+        [34mmax_players[39m: [35m12[39m,
+      },
+      [34;4mApp\Models\Formula[39;24m {#9048
+        [34mid[39m: [35m2[39m,
+        [34mname[39m: [32m"[39m[32mElite[39m[32m"[39m,
+        [34mprice[39m: [35m25[39m,
+        [34mduration[39m: [35m120[39m,
+        [34mmin_players[39m: [35m4[39m,
+        [34mmax_players[39m: [35m20[39m,
+      },
+      [34;4mApp\Models\Formula[39;24m {#9066
+        [34mid[39m: [35m3[39m,
+        [34mname[39m: [32m"[39m[32mAssaut[39m[32m"[39m,
+        [34mprice[39m: [35m35[39m,
+        [34mduration[39m: [35m240[39m,
+        [34mmin_players[39m: [35m4[39m,
+        [34mmax_players[39m: [35m20[39m,
+      },
+      [34;4mApp\Models\Formula[39;24m {#9067
+        [34mid[39m: [35m4[39m,
+        [34mname[39m: [32m"[39m[32mAnniversaire[39m[32m"[39m,
+        [34mprice[39m: [35m35[39m,
+        [34mduration[39m: [35m240[39m,
+        [34mmin_players[39m: [35m8[39m,
+        [34mmax_players[39m: [35m20[39m,
+      },
+      [34;4mApp\Models\Formula[39;24m {#9549
+        [34mid[39m: [35m5[39m,
+        [34mname[39m: [32m"[39m[32mTeam Building[39m[32m"[39m,
+        [34mprice[39m: [35m40[39m,
+        [34mduration[39m: [35m240[39m,
+        [34mmin_players[39m: [35m8[39m,
+        [34mmax_players[39m: [35m20[39m,
+      },
+    ],
+  }
