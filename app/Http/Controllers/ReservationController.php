@@ -12,86 +12,131 @@ use Illuminate\Support\Facades\Mail;
 
 class ReservationController extends Controller
 {
-    public function create()
-    {
-        return view('reservation', [
-            'formulas' => Formula::where('active', true)->get(),
-            'terrains' => Terrain::where('is_active', true)->get(),
-        ]);
-    }
-
-    public function store(Request $request)
-    {
-        $data = $request->validate([
-    'customer_name' => ['nullable'],
-    'customer_phone' => ['nullable'],
-    'customer_email' => ['nullable', 'email'],
-    'formula_id' => ['required', 'exists:formulas,id'],
-    'terrain_id' => ['required', 'exists:terrains,id'],
-    'reservation_date' => ['required', 'date', 'after_or_equal:today'],
-    'start_time' => ['required'],
-    'players_count' => ['required', 'integer', 'min:1', 'max:12'],
-]);
-
-if (auth()->check()) {
-
-    $data['customer_name'] = auth()->user()->name;
-    $data['customer_phone'] = auth()->user()->phone;
-    $data['customer_email'] = auth()->user()->email;
-
-} else {
-
-    if (
-        empty($data['customer_name']) ||
-        empty($data['customer_phone'])
-    ) {
-        return back()
-            ->withInput()
-            ->with('error', 'Nom et téléphone obligatoires.');
-    }
+public function create()
+{
+    return view('reservation', [
+        'formulas' => Formula::where('active', true)->get(),
+    ]);
 }
 
-        $formula = Formula::findOrFail($data['formula_id']);
+public function store(Request $request)
+{
+    $data = $request->validate([
+        'customer_name' => ['nullable'],
+        'customer_phone' => ['nullable'],
+        'customer_email' => ['nullable', 'email'],
+        'formula_id' => ['required', 'exists:formulas,id'],
+        'reservation_date' => ['required', 'date', 'after_or_equal:today'],
+        'start_time' => ['required'],
+        'players_count' => ['required', 'integer', 'min:4', 'max:20'],
+        'payment_option' => ['required', 'in:deposit_30,full'],
+    ]);
 
-        if (Reservation::hasConflict(
-            terrainId: (int) $data['terrain_id'],
-            date: $data['reservation_date'],
-            startTime: $data['start_time'],
-            durationMinutes: $formula->duration,
-        )) {
+    if (auth()->check()) {
+
+        $data['customer_name'] = auth()->user()->name;
+        $data['customer_phone'] = auth()->user()->phone;
+        $data['customer_email'] = auth()->user()->email;
+
+    } else {
+
+        if (
+            empty($data['customer_name']) ||
+            empty($data['customer_phone'])
+        ) {
             return back()
                 ->withInput()
-                ->with('error', 'Le terrain est déjà réservé sur ce créneau.');
+                ->with('error', 'Nom et téléphone obligatoires.');
         }
+    }
 
-       $reservation = Reservation::create([
-    ...$data,
+    $formula = Formula::findOrFail($data['formula_id']);
 
-    'user_id' => auth()->id(),
+    $totalPrice = (float) $formula->price;
 
-    'total_price' => $formula->price,
-    'deposit' => 0,
-    'status' => 'pending',
+    $unitPrice = (float) $formula->price;
+
+    $totalPrice = round(
+        $unitPrice * $data['players_count'],
+        2
+    );
+
+    $paymentAmount = $data['payment_option'] === 'deposit_30'
+        ? round($totalPrice * 0.30, 2)
+        : $totalPrice;
+
+    /*
+     * Le client ne choisit plus le terrain.
+     * On cherche automatiquement le premier terrain actif
+     * disponible pour la date, l'heure et la durée demandées.
+     */
+    $availableTerrain = Terrain::where('is_active', true)
+        ->get()
+        ->first(function ($terrain) use ($data, $formula) {
+
+            return ! Reservation::hasConflict(
+                terrainId: $terrain->id,
+                date: $data['reservation_date'],
+                startTime: $data['start_time'],
+                durationMinutes: $formula->duration,
+            );
+        });
+
+    if (! $availableTerrain) {
+        return back()
+            ->withInput()
+            ->with('error', 'Tous nos terrains sont déjà réservés sur ce créneau. Merci de choisir une autre heure.');
+    }
+
+    $data['terrain_id'] = $availableTerrain->id;
+
+    $reservation = Reservation::create([
+        ...$data,
+        'user_id' => auth()->id(),
+
+        'total_price' => $totalPrice,
+
+        // Montant demandé maintenant
+        'deposit' => $paymentAmount,
+
+        // Paiement actuellement disponible
+        'payment_method' => 'bank_transfer',
+
+        // deposit_30 ou full
+        'payment_option' => $data['payment_option'],
+
+        // Aucun paiement encore vérifié
+        'amount_paid' => 0,
+        'paid_at' => null,
+        'payment_status' => 'pending',
+
+        'status' => 'pending',
 ]);
 
-$reservation->load(['formula', 'terrain']);
-if ($reservation->customer_email) {
-    Mail::to($reservation->customer_email)
-        ->send(new ReservationClientMail($reservation));
-}
+    $reservation->load(['formula', 'terrain']);
 
-Mail::to('sergentblaster44@gmail.com')
-    ->send(new ReservationAdminMail($reservation));
-
-        return redirect()->route(
-    'reservation.success',
-    $reservation
-);
+    if ($reservation->customer_email) {
+        Mail::to($reservation->customer_email)
+            ->send(new ReservationClientMail($reservation));
     }
-    public function availableSlots(Request $request)
+
+    Mail::to('sergentblaster44@gmail.com')
+        ->send(new ReservationAdminMail($reservation));
+
+    return redirect()->route(
+        'reservation.success',
+        $reservation
+    );
+
+    }
+public function availableSlots(Request $request)
 {
-    $terrainId = $request->terrain_id;
-    $date = $request->date;
+    $data = $request->validate([
+        'formula_id' => ['required', 'exists:formulas,id'],
+        'date' => ['required', 'date'],
+    ]);
+
+    $formula = Formula::findOrFail($data['formula_id']);
 
     $hours = [
         '09:00',
@@ -106,16 +151,31 @@ Mail::to('sergentblaster44@gmail.com')
         '18:00',
     ];
 
-    $reservations = Reservation::where('terrain_id', $terrainId)
-        ->whereDate('reservation_date', $date)
-        ->pluck('start_time')
-        ->map(fn ($time) => substr($time, 0, 5))
-        ->toArray();
+    $terrains = Terrain::where('is_active', true)->get();
+
+    $available = [];
+
+    foreach ($hours as $hour) {
+
+        $terrainAvailable = $terrains->contains(function ($terrain) use ($data, $hour, $formula) {
+
+            return ! Reservation::hasConflict(
+                terrainId: $terrain->id,
+                date: $data['date'],
+                startTime: $hour,
+                durationMinutes: $formula->duration,
+            );
+        });
+
+        if ($terrainAvailable) {
+            $available[] = $hour;
+        }
+    }
 
     return response()->json([
-        'reserved' => $reservations,
-        'available' => array_values(array_diff($hours, $reservations)),
+        'available' => $available,
     ]);
+
 }
 public function success(Reservation $reservation)
 {

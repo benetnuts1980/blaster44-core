@@ -23,6 +23,11 @@ class Reservation extends Model
     'deposit',
     'status',
     'notes',
+    'payment_method',
+    'payment_option',
+    'amount_paid',
+    'paid_at',
+    'payment_status',
 ];
 
     protected $casts = [
@@ -31,6 +36,8 @@ class Reservation extends Model
         'total_price' => 'decimal:2',
         'deposit' => 'decimal:2',
         'players_count' => 'integer',
+        'amount_paid' => 'decimal:2',
+        'paid_at' => 'datetime',
     ];
     public function formula(): BelongsTo
 {

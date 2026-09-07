@@ -31,6 +31,8 @@ Route::get(
     '/creneaux-disponibles',
     [ReservationController::class, 'availableSlots']
 );
+Route::view('/deroulement', 'deroulement')->name('deroulement');
+Route::view('/repliques', 'repliques')->name('repliques');
 
 /*
 |--------------------------------------------------------------------------

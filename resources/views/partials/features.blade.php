@@ -225,26 +225,105 @@
 
     <div class="max-w-7xl mx-auto px-6">
 
-        <h2 class="text-5xl font-black text-center text-white mb-16">
+        <h2 class="text-5xl font-black text-center text-white mb-6">
             Galerie <span class="text-lime-400">Blaster44</span>
         </h2>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+        <p class="text-center text-gray-400 max-w-2xl mx-auto mb-10">
+            Découvrez nos terrains, notre matériel et l'ambiance de nos parties.
+        </p>
+
+        {{-- Filtres --}}
+        <div class="flex flex-wrap justify-center gap-3 mb-12">
+
+            <button
+                type="button"
+                data-gallery-filter="all"
+                class="gallery-filter active rounded-full border border-lime-400 bg-lime-400 px-5 py-2.5 font-bold text-black transition"
+            >
+                Toutes
+            </button>
+
+            <button
+                type="button"
+                data-gallery-filter="terrain"
+                class="gallery-filter rounded-full border border-lime-400/50 px-5 py-2.5 font-bold text-lime-400 transition hover:bg-lime-400 hover:text-black"
+            >
+                🏕️ Terrains
+            </button>
+
+            <button
+                type="button"
+                data-gallery-filter="materiel"
+                class="gallery-filter rounded-full border border-lime-400/50 px-5 py-2.5 font-bold text-lime-400 transition hover:bg-lime-400 hover:text-black"
+            >
+                🔫 Matériel
+            </button>
+
+            <button
+                type="button"
+                data-gallery-filter="jeux"
+                class="gallery-filter rounded-full border border-lime-400/50 px-5 py-2.5 font-bold text-lime-400 transition hover:bg-lime-400 hover:text-black"
+            >
+                🎯 Jeux
+            </button>
+
+            <button
+                type="button"
+                data-gallery-filter="infrastructure"
+                class="gallery-filter rounded-full border border-lime-400/50 px-5 py-2.5 font-bold text-lime-400 transition hover:bg-lime-400 hover:text-black"
+            >
+                🏢 Infrastructure
+            </button>
+
+        </div>
+
+        {{-- Galerie --}}
+        <div
+            id="gallery-grid"
+            class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6"
+        >
 
             @forelse($galleryImages as $image)
 
-                <div class="bg-[#111111] rounded-3xl overflow-hidden">
+                <button
+                    type="button"
+                    class="gallery-item group relative bg-[#111111] rounded-3xl overflow-hidden text-left"
+                    data-category="{{ $image->category }}"
+                    data-title="{{ $image->title }}"
+                    data-description="{{ $image->description }}"
+                    data-image="{{ asset($image->image) }}"
+                >
 
                     <img
                         src="{{ asset($image->image) }}"
                         alt="{{ $image->title }}"
-                        class="w-full h-72 object-cover hover:scale-105 transition duration-500">
+                        class="w-full h-72 object-cover transition duration-500 group-hover:scale-105"
+                    >
 
-                </div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition duration-300"></div>
+
+                    <div class="absolute bottom-0 left-0 right-0 p-5 translate-y-3 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition duration-300">
+                        <p class="text-white font-black text-lg">
+                            {{ $image->title }}
+                        </p>
+
+                        @if($image->description)
+                            <p class="text-gray-300 text-sm mt-1">
+                                {{ $image->description }}
+                            </p>
+                        @endif
+                    </div>
+
+                    <div class="absolute top-4 right-4 rounded-full bg-black/60 px-3 py-2 text-white opacity-0 group-hover:opacity-100 transition">
+                        🔍
+                    </div>
+
+                </button>
 
             @empty
 
-                <div class="col-span-4 text-center text-gray-400">
+                <div class="col-span-full text-center text-gray-400 py-12">
                     Aucune photo disponible.
                 </div>
 
@@ -254,7 +333,223 @@
 
     </div>
 
+    {{-- Lightbox --}}
+    <div
+        id="gallery-lightbox"
+        class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/95 p-4"
+    >
+
+        <button
+            type="button"
+            id="gallery-close"
+            class="absolute top-5 right-5 z-10 h-12 w-12 rounded-full bg-white/10 text-2xl text-white hover:bg-lime-400 hover:text-black transition"
+            aria-label="Fermer"
+        >
+            ✕
+        </button>
+
+        <button
+            type="button"
+            id="gallery-prev"
+            class="absolute left-3 md:left-8 z-10 h-12 w-12 rounded-full bg-white/10 text-2xl text-white hover:bg-lime-400 hover:text-black transition"
+            aria-label="Photo précédente"
+        >
+            ‹
+        </button>
+
+        <div class="max-w-6xl w-full flex flex-col items-center">
+
+            <img
+                id="gallery-lightbox-image"
+                src=""
+                alt=""
+                class="max-h-[75vh] max-w-full object-contain rounded-2xl shadow-2xl"
+            >
+
+            <div class="text-center mt-5 max-w-3xl">
+                <h3
+                    id="gallery-lightbox-title"
+                    class="text-2xl font-black text-white"
+                ></h3>
+
+                <p
+                    id="gallery-lightbox-description"
+                    class="text-gray-400 mt-2"
+                ></p>
+            </div>
+
+        </div>
+
+        <button
+            type="button"
+            id="gallery-next"
+            class="absolute right-3 md:right-8 z-10 h-12 w-12 rounded-full bg-white/10 text-2xl text-white hover:bg-lime-400 hover:text-black transition"
+            aria-label="Photo suivante"
+        >
+            ›
+        </button>
+
+    </div>
+
 </section>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+    const items = Array.from(document.querySelectorAll('.gallery-item'));
+    const filters = Array.from(document.querySelectorAll('.gallery-filter'));
+
+    const lightbox = document.getElementById('gallery-lightbox');
+    const lightboxImage = document.getElementById('gallery-lightbox-image');
+    const lightboxTitle = document.getElementById('gallery-lightbox-title');
+    const lightboxDescription = document.getElementById('gallery-lightbox-description');
+
+    const closeButton = document.getElementById('gallery-close');
+    const prevButton = document.getElementById('gallery-prev');
+    const nextButton = document.getElementById('gallery-next');
+
+    let visibleItems = [...items];
+    let currentIndex = 0;
+
+    function updateLightbox() {
+
+        if (!visibleItems.length) {
+            return;
+        }
+
+        const item = visibleItems[currentIndex];
+
+        lightboxImage.src = item.dataset.image;
+        lightboxImage.alt = item.dataset.title || '';
+
+        lightboxTitle.textContent = item.dataset.title || '';
+
+        lightboxDescription.textContent =
+            item.dataset.description || '';
+
+        lightbox.classList.remove('hidden');
+        lightbox.classList.add('flex');
+
+        document.body.classList.add('overflow-hidden');
+    }
+
+    function closeLightbox() {
+        lightbox.classList.add('hidden');
+        lightbox.classList.remove('flex');
+
+        document.body.classList.remove('overflow-hidden');
+    }
+
+    function showPrevious() {
+
+        if (!visibleItems.length) {
+            return;
+        }
+
+        currentIndex =
+            (currentIndex - 1 + visibleItems.length) %
+            visibleItems.length;
+
+        updateLightbox();
+    }
+
+    function showNext() {
+
+        if (!visibleItems.length) {
+            return;
+        }
+
+        currentIndex =
+            (currentIndex + 1) %
+            visibleItems.length;
+
+        updateLightbox();
+    }
+
+    items.forEach(item => {
+
+        item.addEventListener('click', () => {
+
+            visibleItems = items.filter(
+                galleryItem => !galleryItem.classList.contains('hidden')
+            );
+
+            currentIndex = visibleItems.indexOf(item);
+
+            updateLightbox();
+        });
+
+    });
+
+    filters.forEach(filter => {
+
+        filter.addEventListener('click', () => {
+
+            const category = filter.dataset.galleryFilter;
+
+            filters.forEach(button => {
+                button.classList.remove('active', 'bg-lime-400', 'text-black');
+                button.classList.add('text-lime-400');
+            });
+
+            filter.classList.add('active', 'bg-lime-400', 'text-black');
+            filter.classList.remove('text-lime-400');
+
+            items.forEach(item => {
+
+                if (
+                    category === 'all' ||
+                    item.dataset.category === category
+                ) {
+                    item.classList.remove('hidden');
+                } else {
+                    item.classList.add('hidden');
+                }
+
+            });
+
+            visibleItems = items.filter(
+                item => !item.classList.contains('hidden')
+            );
+
+        });
+
+    });
+
+    closeButton.addEventListener('click', closeLightbox);
+    prevButton.addEventListener('click', showPrevious);
+    nextButton.addEventListener('click', showNext);
+
+    lightbox.addEventListener('click', event => {
+
+        if (event.target === lightbox) {
+            closeLightbox();
+        }
+
+    });
+
+    document.addEventListener('keydown', event => {
+
+        if (lightbox.classList.contains('hidden')) {
+            return;
+        }
+
+        if (event.key === 'Escape') {
+            closeLightbox();
+        }
+
+        if (event.key === 'ArrowLeft') {
+            showPrevious();
+        }
+
+        if (event.key === 'ArrowRight') {
+            showNext();
+        }
+
+    });
+
+});
+</script>
 
 <section id="reservation" class="bg-black py-24">
 

@@ -7,6 +7,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Schema;
+use Filament\Forms\Components\Select;
 
 class GalleryImageForm
 {
@@ -19,6 +20,16 @@ class GalleryImageForm
 
                 Textarea::make('description')
                     ->columnSpanFull(),
+                    Select::make('category')
+    ->label('Catégorie')
+    ->options([
+        'terrain' => '🏕️ Terrains',
+        'materiel' => '🔫 Matériel',
+        'jeux' => '🎯 Jeux',
+        'infrastructure' => '🏢 Infrastructure',
+    ])
+    ->default('jeux')
+    ->required(),
 
                 FileUpload::make('image')
                     ->image()

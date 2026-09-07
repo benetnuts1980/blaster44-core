@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Admin\Resources\GalleryImages\Tables;
+namespace App\Filament\Admin\Resources\Replicas\Tables;
 
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
@@ -10,38 +10,32 @@ use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
-class GalleryImagesTable
+class ReplicasTable
 {
     public static function configure(Table $table): Table
     {
         return $table
             ->columns([
-                TextColumn::make('title')
-    ->searchable(),
+                ImageColumn::make('image')
+                    ->label('Photo')
+                    ->disk('public'),
 
-TextColumn::make('category')
-    ->label('Catégorie')
-    ->badge()
-    ->formatStateUsing(fn (string $state): string => match ($state) {
-        'terrain' => '🏕️ Terrains',
-        'materiel' => '🔫 Matériel',
-        'jeux' => '🎯 Jeux',
-        'infrastructure' => '🏢 Infrastructure',
-        default => $state,
-    })
-    ->sortable(),
+                TextColumn::make('name')
+                    ->label('Nom')
+                    ->searchable()
+                    ->sortable(),
 
-ImageColumn::make('image'),
                 IconColumn::make('is_active')
+                    ->label('Visible')
                     ->boolean(),
+
                 TextColumn::make('sort_order')
+                    ->label('Ordre')
                     ->numeric()
                     ->sortable(),
+
                 TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('updated_at')
+                    ->label('Créée le')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),

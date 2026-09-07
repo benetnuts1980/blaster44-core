@@ -178,42 +178,74 @@ style="color:white;"
     <div id="formula-players"></div>
 </div>
             </div>
-           <div class="bg-lime-400/10 border border-lime-400/20 rounded-2xl p-4">
 
-    <div class="text-gray-400 text-sm">
-        Prix estimé
+            
+                <label class="block mb-2 font-semibold">Date</label>
+
+                <div class="bg-black/30 border border-white/10 rounded-2xl p-5">
+
+    <label class="block mb-3 font-semibold">
+        Mode de paiement
+    </label>
+
+    <div class="text-sm text-gray-400 mb-4">
+        Le paiement se fait actuellement par virement bancaire.
     </div>
 
-    <div
-        id="price-display"
-        class="text-4xl font-black text-lime-400 mt-1"
-    >
-        —
+    <div class="space-y-3">
+
+        <label class="flex items-center gap-3 bg-white/5 border border-white/10 rounded-xl p-4 cursor-pointer hover:border-lime-400 transition">
+
+            <input
+                type="radio"
+                name="payment_option"
+                value="deposit_30"
+                checked
+                class="accent-lime-400"
+            >
+
+            <div>
+                <div class="font-bold text-white">
+                    Acompte de 30 %
+                </div>
+
+                <div
+                    id="deposit-amount"
+                    class="text-lime-400 font-semibold"
+                >
+                    —
+                </div>
+            </div>
+
+        </label>
+
+        <label class="flex items-center gap-3 bg-white/5 border border-white/10 rounded-xl p-4 cursor-pointer hover:border-lime-400 transition">
+
+            <input
+                type="radio"
+                name="payment_option"
+                value="full"
+                class="accent-lime-400"
+            >
+
+            <div>
+                <div class="font-bold text-white">
+                    Paiement intégral
+                </div>
+
+                <div
+                    id="full-amount"
+                    class="text-lime-400 font-semibold"
+                >
+                    —
+                </div>
+            </div>
+
+        </label>
+
     </div>
 
 </div>
-
-            <div>
-                <label class="block mb-2 font-semibold">Terrain</label>
-
-                <select
-    id="terrain"
-    name="terrain_id"
-                    class="w-full bg-black border border-gray-700 rounded-xl px-4 py-3 text-white"
-                    required
-                >
-                    <option value="">Choisir un terrain</option>
-
-                    @foreach($terrains as $terrain)
-                        <option value="{{ $terrain->id }}">
-                            {{ $terrain->name }}
-                        </option>
-                    @endforeach
-                </select>
-            </div>
-
-            <div>
-                <label class="block mb-2 font-semibold">Date</label>
 
                 <input
     type="date"
@@ -275,6 +307,24 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     Maximum 20 joueurs actuellement.
 </p>
             </div>
+                        <div class="bg-lime-400/10 border border-lime-400/20 rounded-2xl p-5">
+
+                <div class="text-gray-400 text-sm">
+                    Prix estimé
+                </div>
+
+                <div
+                    id="price-display"
+                    class="text-4xl font-black text-lime-400 mt-1"
+                >
+                    —
+                </div>
+
+                <div class="text-gray-500 text-sm mt-2">
+                    Prix calculé selon le nombre de joueurs.
+                </div>
+
+            </div>
 
             <button
                 type="submit"
@@ -282,6 +332,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
             >
                 Réserver
             </button>
+            
             <div class="text-center mt-6">
 
     <a
@@ -304,52 +355,87 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const formula = document.querySelector('[name="formula_id"]');
     const priceDisplay = document.getElementById('price-display');
+    const playersCount = document.querySelector('[name="players_count"]');
 
-    formula.addEventListener('change', () => {
+    const depositAmount = document.getElementById('deposit-amount');
+const fullAmount = document.getElementById('full-amount');
 
-        const option = formula.options[formula.selectedIndex];
-        const price = option.dataset.price;
+function updatePaymentAmounts() {
+    const option = formula.options[formula.selectedIndex];
 
-        if (price) {
-            priceDisplay.innerHTML = price + ' €';
-        } else {
-            priceDisplay.innerHTML = '—';
-        }
-    });
+    const unitPrice = parseFloat(option?.dataset.price || 0);
+    const players = parseInt(playersCount?.value || 0);
 
-    const terrain = document.getElementById('terrain');
-    const date = document.getElementById('reservation_date');
-    const startTime = document.getElementById('start_time');
-
-    async function loadAvailableSlots() {
-
-        if (!terrain.value || !date.value) {
-            return;
-        }
-
-        const response = await fetch(
-            `/creneaux-disponibles?terrain_id=${terrain.value}&date=${date.value}`
-        );
-
-        const data = await response.json();
-
-        startTime.innerHTML =
-            '<option value="">Choisir une heure</option>';
-
-        data.available.forEach(hour => {
-
-            const option = document.createElement('option');
-
-            option.value = hour;
-            option.textContent = hour;
-
-            startTime.appendChild(option);
-
-        });
+    if (!unitPrice || !players) {
+        priceDisplay.innerHTML = '—';
+        depositAmount.textContent = '—';
+        fullAmount.textContent = '—';
+        return;
     }
 
-    terrain.addEventListener('change', loadAvailableSlots);
-    date.addEventListener('change', loadAvailableSlots);
+    const totalPrice = unitPrice * players;
+
+    const deposit = totalPrice * 0.30;
+    const full = totalPrice;
+
+    priceDisplay.innerHTML =
+        totalPrice.toFixed(2).replace('.', ',') + ' €';
+
+    depositAmount.textContent =
+        deposit.toFixed(2).replace('.', ',') + ' €';
+
+    fullAmount.textContent =
+        full.toFixed(2).replace('.', ',') + ' €';
+}
+
+formula.addEventListener('change', () => {
+    const option = formula.options[formula.selectedIndex];
+    const price = option.dataset.price;
+
+    if (price) {
+        priceDisplay.innerHTML = price + ' €';
+    } else {
+        priceDisplay.innerHTML = '—';
+    }
+
+    updatePaymentAmounts();
+});
+
+    
+const date = document.getElementById('reservation_date');
+const startTime = document.getElementById('start_time');
+
+async function loadAvailableSlots() {
+
+    if (!formula.value || !date.value) {
+        return;
+    }
+
+    const response = await fetch(
+        `/creneaux-disponibles?formula_id=${formula.value}&date=${date.value}`
+    );
+
+    const data = await response.json();
+
+    startTime.innerHTML =
+        '<option value="">Choisir une heure</option>';
+
+    data.available.forEach(hour => {
+
+        const option = document.createElement('option');
+
+        option.value = hour;
+        option.textContent = hour;
+
+        startTime.appendChild(option);
+
+    });
+}
+
+formula.addEventListener('change', loadAvailableSlots);
+date.addEventListener('change', loadAvailableSlots);
+playersCount.addEventListener('input', updatePaymentAmounts);
+playersCount.addEventListener('change', updatePaymentAmounts);
 
 });
 </script>
@@ -357,7 +443,7 @@ document.addEventListener('DOMContentLoaded', () => {
 </body>
 <style>
 select option {
-    color: black;
+    color: white;
 }
 </style>
 </html>
