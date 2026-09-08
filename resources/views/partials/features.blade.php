@@ -89,6 +89,8 @@
 
 </section>
 
+{{-- Bloc Terrains conservé pour une utilisation future --}}
+{{--
 <section id="terrains" class="bg-black py-24">
 
     <div class="max-w-7xl mx-auto px-6">
@@ -213,6 +215,7 @@
     </div>
 
 </section>
+--}}
 
 <section id="galerie" class="bg-[#0A0A0A] py-24">
 
