@@ -2,6 +2,7 @@
 
     @php
         $formulas = \App\Models\Formula::where('active', true)->get();
+    use Illuminate\Support\Facades\Storage;
     @endphp
 
     <div class="max-w-7xl mx-auto px-6">
@@ -30,7 +31,7 @@
 
                         @if($formula->image)
                             <img
-                                src="{{ asset($formula->image) }}"
+                                src="{{ Storage::url($formula->image) }}"
                                 alt="{{ $formula->name }}"
                                 class="w-full h-48 object-cover">
                         @endif
