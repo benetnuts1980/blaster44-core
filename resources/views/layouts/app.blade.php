@@ -24,6 +24,8 @@
     <meta name="twitter:description" content="@yield('twitter_description', 'Découvrez le Gel Blaster en Belgique avec Blaster44.')">
     <meta name="twitter:image" content="@yield('twitter_image', rtrim(config('app.url'), '/') . '/images/hero.jpg')">
 
+    @stack('head')
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
