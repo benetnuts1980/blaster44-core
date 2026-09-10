@@ -121,3 +121,9 @@ Route::view('/cgv', 'cgv')
 Route::view('/confidentialite', 'confidentialite')
     ->name('confidentialite');
 require __DIR__.'/auth.php';
+
+Route::get('/sitemap.xml', function () {
+    return response()
+        ->view('sitemap')
+        ->header('Content-Type', 'application/xml');
+});
