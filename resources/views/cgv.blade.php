@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Conditions générales')
+@section('title', 'Conditions générales de vente | Blaster44')
+@section('description', 'Consultez les conditions générales de vente de Blaster44.')
 
 @section('content')
 

@@ -4,7 +4,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'Blaster44')</title>
+    <title>@yield('title', 'Gel Blaster en Belgique | Blaster44')</title>
+    <meta name="description" content="@yield('description', 'Découvrez le Gel Blaster en Belgique avec Blaster44 : parties immersives, terrains et formules pour groupes jusqu’à 20 joueurs.')">
+    <meta name="robots" content="@yield('robots', 'index, follow')">
+    <link rel="canonical" href="@yield('canonical', rtrim(config('app.url'), '/') . request()->getPathInfo())">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="@yield('og_type', 'website')">
+    <meta property="og:locale" content="fr_BE">
+    <meta property="og:site_name" content="Blaster44">
+    <meta property="og:title" content="@yield('og_title', 'Gel Blaster en Belgique | Blaster44')">
+    <meta property="og:description" content="@yield('og_description', 'Découvrez le Gel Blaster en Belgique avec Blaster44 : parties immersives, terrains et formules pour groupes jusqu’à 20 joueurs.')">
+    <meta property="og:url" content="@yield('og_url', rtrim(config('app.url'), '/') . request()->getPathInfo())">
+    <meta property="og:image" content="@yield('og_image', rtrim(config('app.url'), '/') . '/images/hero.jpg')">
+
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="@yield('twitter_title', 'Gel Blaster en Belgique | Blaster44')">
+    <meta name="twitter:description" content="@yield('twitter_description', 'Découvrez le Gel Blaster en Belgique avec Blaster44.')">
+    <meta name="twitter:image" content="@yield('twitter_image', rtrim(config('app.url'), '/') . '/images/hero.jpg')">
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>

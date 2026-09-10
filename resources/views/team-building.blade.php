@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Team Building Blaster44')
+@section('title', 'Team Building Gel Blaster en Belgique | Blaster44')
+@section('description', 'Organisez votre team building avec une activité Gel Blaster immersive en Belgique. Une expérience idéale pour les groupes.')
 
 @section('content')
 

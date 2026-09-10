@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Anniversaire Blaster44')
+@section('title', 'Anniversaire Gel Blaster en Belgique | Blaster44')
+@section('description', 'Organisez un anniversaire original avec une partie de Gel Blaster en Belgique. Une activité immersive pour groupes jusqu’à 20 joueurs.')
 
 @section('content')
 

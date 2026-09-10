@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Déroulement de votre journée | Blaster44')
+@section('title', 'Déroulement d'une partie de Gel Blaster | Blaster44')
+@section('description', 'Découvrez comment se déroule une partie de Gel Blaster chez Blaster44 : accueil, équipement, briefing et parties immersives.')
 
 @section('content')
 

@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Mentions légales')
+@section('title', 'Mentions légales | Blaster44')
+@section('description', 'Consultez les mentions légales du site Blaster44.')
 
 @section('content')
 

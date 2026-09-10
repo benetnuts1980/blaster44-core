@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Nos répliques | Blaster44')
+@section('title', 'Répliques Gel Blaster | Blaster44')
+@section('description', 'Découvrez les répliques Gel Blaster utilisées par Blaster44 et les équipements disponibles pour vos parties.')
 
 @section('content')
 

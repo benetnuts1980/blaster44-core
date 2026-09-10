@@ -1,10 +1,9 @@
 @extends('layouts.app')
 
-@section('title', 'Blaster44')
+@section('title', 'Gel Blaster en Belgique | Blaster44')
+@section('description', 'Découvrez le Gel Blaster en Belgique avec Blaster44 : parties immersives, terrains et formules pour groupes jusqu’à 20 joueurs.')
 
 @section('content')
-
-
 
 <section id="home"
     class="relative flex min-h-[90vh] items-center justify-center overflow-hidden">

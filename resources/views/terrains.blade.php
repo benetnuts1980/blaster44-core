@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Nos Terrains')
+@section('title', 'Terrains de Gel Blaster en Belgique | Blaster44')
+@section('description', 'Découvrez les terrains de Gel Blaster de Blaster44 et plongez dans une expérience immersive en Belgique.')
 
 @section('content')
 
