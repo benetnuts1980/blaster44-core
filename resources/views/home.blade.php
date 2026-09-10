@@ -3,27 +3,7 @@
 @section('title', 'Gel Blaster en Belgique | Blaster44')
 @section('description', 'Découvrez le Gel Blaster en Belgique avec Blaster44 : parties immersives, terrains et formules pour groupes jusqu’à 20 joueurs.')
 
-@push('head')
-<script type="application/ld+json">
-{!! json_encode([
-    '@context' => 'https://schema.org',
-    '@type' => 'SportsActivityLocation',
-    'name' => 'Blaster44',
-    'url' => 'https://blaster44.be/',
-    'image' => 'https://blaster44.be/images/hero.jpg',
-    'telephone' => '+32471852979',
-    'address' => [
-        '@type' => 'PostalAddress',
-        'streetAddress' => 'Rue de la Gazéification',
-        'postalCode' => '7350',
-        'addressLocality' => 'Thulin',
-        'addressRegion' => 'Hainaut',
-        'addressCountry' => 'BE',
-    ],
-    'description' => "Blaster44 propose des parties de Gel Blaster immersives en Belgique, à Thulin dans le Hainaut, pour des groupes jusqu'à 20 joueurs.",
-], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) !!}
-</script>
-@endpush
+
 
 @section('content')
 

@@ -22,10 +22,15 @@ use App\Models\Checkin;
     'points',
     'games_played',
     'qr_token',
+    'is_admin',
 ])]
 #[Hidden(['password', 'remember_token'])]
-class User extends Authenticatable
+class User extends Authenticatable implements \Filament\Models\Contracts\FilamentUser
 {
+public function canAccessPanel(\Filament\Panel $panel): bool
+{
+    return $this->is_admin;
+}
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;
 
