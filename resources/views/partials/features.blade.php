@@ -296,11 +296,11 @@
                     data-category="{{ $image->category }}"
                     data-title="{{ $image->title }}"
                     data-description="{{ $image->description }}"
-                    data-image="{{ asset($image->image) }}"
+                    data-image="{{ Storage::url($image->image) }}"
                 >
 
                     <img
-                        src="{{ asset($image->image) }}"
+                        src="{{ Storage::url($image->image) }}"
                         alt="{{ $image->title }}"
                         class="w-full h-72 object-cover transition duration-500 group-hover:scale-105"
                     >
