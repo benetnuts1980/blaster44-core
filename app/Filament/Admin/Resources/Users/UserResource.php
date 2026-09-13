@@ -16,6 +16,17 @@ use Filament\Tables\Table;
 
 class UserResource extends Resource
 {
+        public static function canEdit(\Illuminate\Database\Eloquent\Model $record): bool
+    {
+        return $record instanceof User && $record->is_admin;
+    }
+
+    public static function canDelete(\Illuminate\Database\Eloquent\Model $record): bool
+    {
+        return $record instanceof User
+            && $record->is_admin
+            && ! $record->is(auth()->user());
+    }
 
     protected static ?string $navigationLabel = 'Administrateurs';
 
