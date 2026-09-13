@@ -93,7 +93,19 @@
 
         <div>
             <span class="text-gray-400">Téléphone :</span>
-            {{ auth()->user()->phone ?? 'Non renseigné' }}
+
+            @if(auth()->user()->phone)
+                {{ auth()->user()->phone }}
+            @else
+                <input
+                    type="text"
+                    name="customer_phone"
+                    value="{{ old('customer_phone') }}"
+                    class="w-full mt-2 bg-black border border-gray-700 rounded-xl px-4 py-3 text-white"
+                    placeholder="Votre numéro de téléphone"
+                    required
+                >
+            @endif
         </div>
 
     </div>

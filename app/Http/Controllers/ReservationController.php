@@ -32,13 +32,19 @@ public function store(Request $request)
         'payment_option' => ['required', 'in:deposit_30,full'],
     ]);
 
-    if (auth()->check()) {
+        if (auth()->check()) {
 
-        $data['customer_name'] = auth()->user()->name;
-        $data['customer_phone'] = auth()->user()->phone;
-        $data['customer_email'] = auth()->user()->email;
+            $data['customer_name'] = auth()->user()->name;
+            $data['customer_phone'] = auth()->user()->phone ?: $data['customer_phone'];
+            $data['customer_email'] = auth()->user()->email;
 
-    } else {
+            if (empty($data['customer_phone'])) {
+                return back()
+                    ->withInput()
+                    ->with('error', 'Votre numéro de téléphone est obligatoire pour effectuer une réservation.');
+            }
+
+        } else {
 
         if (
             empty($data['customer_name']) ||
