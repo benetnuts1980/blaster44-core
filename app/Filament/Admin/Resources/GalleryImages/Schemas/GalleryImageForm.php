@@ -33,7 +33,7 @@ class GalleryImageForm
 
                 FileUpload::make('image')
                     ->image()
-                    ->disk('public')
+                    ->disk('ovh_public')
                     ->directory('gallery')
                     ->required(),
 
